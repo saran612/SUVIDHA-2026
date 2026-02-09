@@ -1,0 +1,35 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "city-1",
+      "description": "Smart City Skyline",
+      "imageUrl": "https://picsum.photos/seed/city1/1920/1080",
+      "imageHint": "city skyline"
+    },
+    {
+      "id": "city-2",
+      "description": "Urban Park",
+      "imageUrl": "https://picsum.photos/seed/city2/1920/1080",
+      "imageHint": "urban park"
+    },
+    {
+      "id": "city-3",
+      "description": "Digital Governance",
+      "imageUrl": "https://picsum.photos/seed/city3/1920/1080",
+      "imageHint": "technology city"
+    },
+    {
+      "id": "city-4",
+      "description": "Citizen Services",
+      "imageUrl": "https://picsum.photos/seed/city4/1920/1080",
+      "imageHint": "people help"
+    },
+    {
+      "id": "city-5",
+      "description": "Clean City",
+      "imageUrl": "https://picsum.photos/seed/city5/1920/1080",
+      "imageHint": "clean street"
+    }
+  ]
+}
