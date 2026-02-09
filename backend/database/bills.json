@@ -1,0 +1,60 @@
+[
+    {
+        "model": "billing.Bill",
+        "pk": 1,
+        "fields": {
+            "bill_id": "BILL-ELEC-001",
+            "account_type": "ELECTRICITY",
+            "consumer_number": "1000000001",
+            "bill_date": "2023-10-01",
+            "due_date": "2023-10-15",
+            "amount": "1500.00",
+            "arrears": "0.00",
+            "status": "PENDING"
+        }
+    },
+    {
+        "model": "billing.BillLineItem",
+        "pk": 1,
+        "fields": {
+            "bill": 1,
+            "description": "Energy Charges",
+            "amount": "1200.00",
+            "quantity": "1.00"
+        }
+    },
+    {
+        "model": "billing.BillLineItem",
+        "pk": 2,
+        "fields": {
+            "bill": 1,
+            "description": "Fixed Charges",
+            "amount": "300.00",
+            "quantity": "1.00"
+        }
+    },
+    {
+        "model": "billing.Bill",
+        "pk": 2,
+        "fields": {
+            "bill_id": "BILL-WATER-001",
+            "account_type": "WATER",
+            "consumer_number": "1000000001",
+            "bill_date": "2023-10-05",
+            "due_date": "2023-10-20",
+            "amount": "450.00",
+            "arrears": "50.00",
+            "status": "OVERDUE"
+        }
+    },
+    {
+        "model": "billing.BillLineItem",
+        "pk": 3,
+        "fields": {
+            "bill": 2,
+            "description": "Water Consumption",
+            "amount": "450.00",
+            "quantity": "1.00"
+        }
+    }
+]
