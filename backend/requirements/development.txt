@@ -1,0 +1,6 @@
+-r base.txt
+black
+flake8
+pytest
+pytest-cov
+factory-boy
