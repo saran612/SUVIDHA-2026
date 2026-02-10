@@ -9,7 +9,7 @@ The system is designed for **public kiosk deployment**, focusing on accessibilit
 ## 🔗 Live Demo (Vercel)
 
 👉 **Live Application:**  
-https://suvidha-kiosk.vercel.app  
+https://suvidha.saran612.me/
 
 > For best experience
 - the application will run in **fullscreen / kiosk mode**.
