@@ -12,12 +12,13 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y netcat-openbsd gcc libpq-dev && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies
-COPY ./requirements /app/requirements
+COPY backend/requirements /app/requirements
 RUN pip install --upgrade pip
-RUN pip install -r requirements/production.txt
+RUN pip install -r /app/requirements/production.txt
 
 # Copy project
 COPY . /app/
+WORKDIR /app/backend
 
 # Expose port
 EXPOSE 8000

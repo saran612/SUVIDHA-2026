@@ -228,6 +228,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     sessionStorage.setItem('suvidha_expiry', expiryTime.toString());
     sessionStorage.setItem('suvidha_session_id', 'SESS-' + Math.random().toString(36).substring(2, 11));
     logger.log('User signed in', 'INFO', { userId: mockUser.id, language: data.language });
+    setIsLoading(false);
     router.replace('/dashboard');
   };
 

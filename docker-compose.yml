@@ -2,20 +2,26 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    image: suvidha-2026-web
     command: gunicorn --bind 0.0.0.0:8000 config.wsgi:application
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - backend/.env
+    environment:
+      - DATABASE_URL=postgres://suvidha_user:suvidha_pass@db:5432/suvidha
+      - REDIS_URL=redis://redis:6379/0
+      - DJANGO_SETTINGS_MODULE=config.settings.development
     depends_on:
       - db
       - redis
 
   db:
     image: postgres:15
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -25,6 +31,8 @@ services:
 
   redis:
     image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:

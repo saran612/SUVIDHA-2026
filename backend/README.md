@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 # SUVIDHA Kiosk Backend Platform
 
 SUVIDHA (Smart Urban Virtual Interactive Digital Helpdesk Assistant) is a unified backend platform for Smart City kiosks, built with Django 5 and Django Rest Framework.
@@ -84,4 +81,3 @@ docker-compose up --build
 ```bash
 pytest
 ```
->>>>>>> 141ca6a5 (Backend is updated)

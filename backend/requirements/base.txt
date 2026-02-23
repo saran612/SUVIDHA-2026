@@ -16,3 +16,4 @@ django-extensions>=3.2.3
 pytest-django>=4.7.0
 twilio
 djangorestframework-api-key
+dj-database-url

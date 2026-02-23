@@ -155,8 +155,8 @@ export default function LoginPage() {
                 ) : (
                   <div className="space-y-6">
                     <div className="text-center">
-                      <p className="text-lg sm:text-xl font-bold text-gray-500 mb-2">Verification Required</p>
-                      <p className="text-sm font-medium text-[#0E6170] mb-4">(Use test code 1234)</p>
+                      <p className="text-lg sm:text-xl font-bold text-gray-500 mb-2">{t('verification_required')}</p>
+                      <p className="text-sm font-medium text-[#0E6170] mb-4">{t('use_test_code')}</p>
                       <Input
                         placeholder="0 0 0 0"
                         value={otp}
@@ -165,7 +165,7 @@ export default function LoginPage() {
                       />
                     </div>
                     <Button variant="link" className="w-full text-base sm:text-lg h-10 text-[#0E6170] font-bold" onClick={() => { setStep(1); setOtp(''); }}>
-                      Change Number
+                      {t('change_number')}
                     </Button>
                   </div>
                 )}
@@ -174,7 +174,7 @@ export default function LoginPage() {
 
             <Card className="w-full shadow-sm border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white">
               <CardHeader className="text-center py-6 sm:py-8">
-                <CardTitle className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">Touch Input</CardTitle>
+                <CardTitle className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight">{t('touch_input')}</CardTitle>
               </CardHeader>
               <CardContent className="px-6 sm:px-8 pb-8 flex-1 flex flex-col justify-center">
                 <NumericKeyboard
@@ -189,7 +189,7 @@ export default function LoginPage() {
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+      <footer className="w-full shrink-0 bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
         <div className="flex items-center gap-6 sm:gap-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0E6170] flex items-center justify-center shadow-lg">

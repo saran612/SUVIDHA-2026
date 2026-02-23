@@ -34,20 +34,10 @@ export default function RootLayout({
           <AuthProvider>
             {!isAdminPage && <KioskHeader />}
 
-            <div className="flex-1 w-full flex items-center justify-center overflow-hidden bg-white" style={{ containerType: 'size' }}>
-              <div
-                className="relative flex flex-col bg-white overflow-hidden"
-                style={{
-                  width: '100cqw',
-                  height: 'calc(100cqw * 10 / 16)',
-                  maxHeight: '100cqh',
-                  maxWidth: 'calc(100cqh * 16 / 10)',
-                }}
-              >
-                <main className="flex-1 relative overflow-hidden">
-                  {children}
-                </main>
-              </div>
+            <div className="flex-1 w-full flex items-center justify-center overflow-hidden bg-white">
+              <main className="w-full h-full relative overflow-hidden flex flex-col">
+                {children}
+              </main>
             </div>
             {!isAdminPage && (
               <>

@@ -33,7 +33,7 @@ export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarP
     {
       id: '1',
       title: 'Electricity Bill Due',
-      message: 'Your bill for April (₹850.50) is pending payment.',
+      message: 'Your bill for April (850.50) is pending payment.',
       type: 'bill',
       path: '/pay-bill',
       timestamp: '2 hours ago'
@@ -96,7 +96,7 @@ export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarP
           <div className="p-6 space-y-4">
             {notifications.length > 0 ? (
               notifications.map((n) => (
-                <div 
+                <div
                   key={n.id}
                   onClick={() => handleAction(n.path)}
                   className={cn(
@@ -110,9 +110,9 @@ export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarP
                   <div className="flex-1 space-y-1">
                     <div className="flex justify-between items-start">
                       <h4 className="text-xl font-black text-gray-900">{n.title}</h4>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="h-8 w-8 rounded-full hover:bg-red-100 hover:text-red-600"
                         onClick={(e) => dismissNotification(n.id, e)}
                       >
@@ -140,10 +140,10 @@ export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarP
             )}
           </div>
         </ScrollArea>
-        
+
         <div className="p-6 border-t bg-gray-50/50">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full h-14 text-lg font-bold rounded-xl"
             onClick={() => onOpenChange(false)}
           >

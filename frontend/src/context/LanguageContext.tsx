@@ -20,28 +20,48 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Recover from jwt/session storage on mount to avoid hydration mismatch
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      let langFromJwt: LanguageId | null = null;
-      const jwtToken = localStorage.getItem('jwt');
+      const loadLanguageFromStorage = (e?: StorageEvent) => {
+        // If it's a cross-tab event and it's not the jwt key, ignore.
+        if (e && e.key && e.key !== 'jwt' && e.key !== 'suvidha_lang') return;
 
-      if (jwtToken) {
-        try {
-          const payloadBase64 = jwtToken.split('.')[1];
-          if (payloadBase64) {
-            const decodedPayload = JSON.parse(atob(payloadBase64));
-            if (decodedPayload.language) {
-              langFromJwt = decodedPayload.language as LanguageId;
-            }
-          }
-        } catch (error) {
-          console.error('Error decoding jwt for language:', error);
+        let langFromJwt: LanguageId | null = null;
+
+        // Grab JWT from URL if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlJwt = urlParams.get('jwt');
+        if (urlJwt) {
+          localStorage.setItem('jwt', urlJwt);
+          // Remove from URL cleanly without refreshing page
+          window.history.replaceState({}, document.title, window.location.pathname);
         }
-      }
 
-      const saved = langFromJwt || (sessionStorage.getItem('suvidha_lang') as LanguageId);
-      if (saved && saved !== 'en') {
-        setLanguageState(saved);
-      }
+        const jwtToken = localStorage.getItem('jwt');
+
+        if (jwtToken) {
+          try {
+            const payloadBase64 = jwtToken.split('.')[1];
+            if (payloadBase64) {
+              const decodedPayload = JSON.parse(atob(payloadBase64));
+              if (decodedPayload.language) {
+                langFromJwt = decodedPayload.language as LanguageId;
+              }
+            }
+          } catch (error) {
+            console.error('Error decoding jwt for language:', error);
+          }
+        }
+
+        const saved = langFromJwt || (sessionStorage.getItem('suvidha_lang') as LanguageId);
+        if (saved) {
+          setLanguageState(saved);
+        }
+      };
+
+      loadLanguageFromStorage();
+      window.addEventListener('storage', loadLanguageFromStorage);
       isMounted.current = true;
+
+      return () => window.removeEventListener('storage', loadLanguageFromStorage);
     }
   }, []);
 

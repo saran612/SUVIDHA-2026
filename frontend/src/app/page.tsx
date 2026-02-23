@@ -52,13 +52,13 @@ export default function LanguageSelection() {
           console.warn("Fullscreen request failed:", err);
         });
       }
-      
+
       setNavigating(true);
       setLanguage(selectedId as any);
       sessionStorage.setItem('suvidha_temp_region', JSON.stringify(region));
-      
+
       logger.log(`Confirmed language: ${selectedId}`, 'INFO');
-      
+
       setTimeout(() => {
         router.push('/login');
       }, 300);
@@ -67,8 +67,8 @@ export default function LanguageSelection() {
 
   const getLangBadge = (id: string, native: string) => {
     const badges: Record<string, string> = {
-      en: 'Ag', hi: 'अ', bn: 'অ', te: 'తె', mr: 'म', ta: 'த', ur: 'ع', gu: 'ગુ', 
-      kn: 'ಕ', ml: 'മ', or: 'ଓ', pa: 'ਪੰ', as: 'অ', mai: 'मै', ks: 'ک', sd: 'سن', 
+      en: 'Ag', hi: 'अ', bn: 'অ', te: 'తె', mr: 'म', ta: 'த', ur: 'ع', gu: 'ગુ',
+      kn: 'ಕ', ml: 'മ', or: 'ଓ', pa: 'ਪੰ', as: 'অ', mai: 'मै', ks: 'ک', sd: 'سن',
       kok: 'कों', mni: 'ꯃꯤ', ne: 'ने', brx: 'ब', doi: 'डो', sa: 'सं', sat: 'ᱥᱟ',
     };
     return badges[id] || native.substring(0, 1);
@@ -117,43 +117,41 @@ export default function LanguageSelection() {
           </p>
         </div>
 
-        <div className="flex-1 w-full relative">
-          <div className="absolute inset-0 overflow-y-auto overflow-x-hidden px-6 pb-48 touch-pan-y pointer-events-auto overscroll-contain">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto py-4">
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <Card
-                  key={lang.id}
-                  onClick={() => handleSelect(lang.id)}
-                  className={cn(
-                    "relative flex items-center p-4 sm:p-6 cursor-pointer transition-all border-2 rounded-[1.25rem] shadow-sm active:scale-[0.98]",
-                    selectedId === lang.id 
-                      ? "border-[#0E6170] bg-[#0E6170]/10 ring-4 ring-[#0E6170]/5" 
-                      : "border-transparent bg-white hover:border-gray-100"
-                  )}
-                >
-                  <div className={cn(
-                    "w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold mr-4 shrink-0",
-                    getBadgeColor(lang.id)
-                  )}>
-                    {getLangBadge(lang.id, lang.native)}
+        <div className="flex-1 w-full overflow-y-auto overflow-x-hidden px-6 touch-pan-y pointer-events-auto overscroll-contain pb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto py-4">
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <Card
+                key={lang.id}
+                onClick={() => handleSelect(lang.id)}
+                className={cn(
+                  "relative flex items-center p-4 sm:p-6 cursor-pointer transition-all border-2 rounded-[1.25rem] shadow-sm active:scale-[0.98]",
+                  selectedId === lang.id
+                    ? "border-[#0E6170] bg-[#0E6170]/10 ring-4 ring-[#0E6170]/5"
+                    : "border-transparent bg-white hover:border-gray-100"
+                )}
+              >
+                <div className={cn(
+                  "w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-xl font-bold mr-4 shrink-0",
+                  getBadgeColor(lang.id)
+                )}>
+                  {getLangBadge(lang.id, lang.native)}
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <p className="text-lg sm:text-xl font-bold text-gray-900 leading-tight truncate">{lang.native}</p>
+                  <p className="text-xs sm:text-sm text-gray-400 font-medium truncate">{lang.name}</p>
+                </div>
+                {selectedId === lang.id && (
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
+                    <CheckCircle2 className="w-6 h-6 text-[#0E6170] fill-white" />
                   </div>
-                  <div className="flex-1 overflow-hidden">
-                    <p className="text-lg sm:text-xl font-bold text-gray-900 leading-tight truncate">{lang.native}</p>
-                    <p className="text-xs sm:text-sm text-gray-400 font-medium truncate">{lang.name}</p>
-                  </div>
-                  {selectedId === lang.id && (
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                      <CheckCircle2 className="w-6 h-6 text-[#0E6170] fill-white" />
-                    </div>
-                  )}
-                </Card>
-              ))}
-            </div>
+                )}
+              </Card>
+            ))}
           </div>
         </div>
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+      <footer className="w-full bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] shrink-0">
         <div className="flex items-center gap-6 sm:gap-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0E6170] flex items-center justify-center shadow-lg">
@@ -164,14 +162,14 @@ export default function LanguageSelection() {
               <p className="text-lg sm:text-xl font-bold text-gray-800">आवाज़ सुनें</p>
             </div>
           </div>
-          <Switch 
-            checked={audioEnabled} 
+          <Switch
+            checked={audioEnabled}
             onCheckedChange={setAudioEnabled}
             className="data-[state=checked]:bg-[#0E6170] scale-110 sm:scale-125 ml-2"
           />
         </div>
 
-        <Button 
+        <Button
           onClick={handleStart}
           disabled={!selectedId}
           className="w-full sm:w-auto h-16 sm:h-20 px-10 sm:px-16 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-4 sm:gap-6 text-2xl sm:text-3xl font-bold transition-all active:scale-95"

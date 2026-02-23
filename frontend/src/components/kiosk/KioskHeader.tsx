@@ -49,7 +49,7 @@ export const KioskHeader = () => {
   const isLanguagePage = pathname === '/';
 
   return (
-    <header className="p-3 sm:p-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b">
+    <header className="p-3 sm:p-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
       <div className="flex items-center gap-2 sm:gap-6">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-[#0E6170]/10 flex items-center justify-center">
@@ -74,9 +74,9 @@ export const KioskHeader = () => {
 
       <div className="flex items-center gap-2 sm:gap-4">
         <div className="flex items-center gap-2">
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="rounded-full font-bold text-muted-foreground hover:text-[#0E6170] hover:bg-[#0E6170]/10 h-10 px-4 gap-2 transition-all opacity-40 hover:opacity-100"
             onClick={() => router.push('/admindashboard')}
           >
@@ -84,9 +84,9 @@ export const KioskHeader = () => {
             <span className="hidden sm:inline">Admin</span>
           </Button>
 
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={exitKioskMode}
             className="rounded-full border-red-100 text-red-500 hover:bg-red-50 hover:text-red-600 bg-white/50 h-10 px-4 gap-2 font-bold transition-all opacity-40 hover:opacity-100"
           >
@@ -108,9 +108,9 @@ export const KioskHeader = () => {
         {isAuthenticated && (
           <>
             <div className="relative">
-              <Button 
-                variant="outline" 
-                size="icon" 
+              <Button
+                variant="outline"
+                size="icon"
                 className="rounded-full h-10 w-10 sm:h-12 sm:w-12 border-gray-200 bg-white/80 shadow-sm hover:bg-white relative active:scale-95 transition-all"
                 onClick={() => {
                   setIsNotificationsOpen(true);
@@ -140,9 +140,9 @@ export const KioskHeader = () => {
         </Button>
 
         {isAuthenticated && (
-          <Button 
-            variant="destructive" 
-            size="sm" 
+          <Button
+            variant="destructive"
+            size="sm"
             onClick={logout}
             className="rounded-full h-10 sm:h-12 px-3 sm:px-6 font-bold shadow-md active:scale-95 transition-all"
           >
@@ -153,9 +153,9 @@ export const KioskHeader = () => {
       </div>
 
       {isAuthenticated && (
-        <NotificationSidebar 
-          open={isNotificationsOpen} 
-          onOpenChange={setIsNotificationsOpen} 
+        <NotificationSidebar
+          open={isNotificationsOpen}
+          onOpenChange={setIsNotificationsOpen}
         />
       )}
     </header>
