@@ -37,7 +37,7 @@ export default function PayBillSearchPage() {
         .then(data => setExistingBills(data))
         .catch(() => console.error('Failed to fetch existing bills'))
         .finally(() => setFetchingBills(false));
-      
+
       if (user?.consumerNo) setConsumerNo(user.consumerNo);
     }
   }, [user]);
@@ -80,7 +80,7 @@ export default function PayBillSearchPage() {
         <div className="max-w-7xl mx-auto w-full h-full flex flex-col overflow-hidden">
           <div className="flex items-center mb-8 shrink-0">
             <div className="flex items-center gap-6">
-              <Button 
+              <Button
                 className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
                 onClick={() => router.push('/dashboard')}
               >
@@ -105,7 +105,7 @@ export default function PayBillSearchPage() {
                     <div className="space-y-4 w-full">
                       <p className="text-center text-muted-foreground font-medium">{t('tap_to_enter')}</p>
                       <div className="relative">
-                        <Input 
+                        <Input
                           value={consumerNo}
                           readOnly
                           onClick={() => setIsKeyboardOpen(true)}
@@ -117,7 +117,7 @@ export default function PayBillSearchPage() {
                         </div>
                       </div>
                     </div>
-                    <Button 
+                    <Button
                       className="w-full h-24 text-3xl font-black rounded-2xl bg-[#0E6170] text-white hover:bg-[#0E6170]/90 shadow-xl transition-transform active:scale-95"
                       onClick={handleFetch}
                       disabled={!consumerNo || loading}
@@ -134,7 +134,7 @@ export default function PayBillSearchPage() {
                     <CheckCircle2 className="w-6 h-6 text-accent" />
                     {t('your_bills')}
                   </h2>
-                  <Button 
+                  <Button
                     size="sm"
                     variant="outline"
                     className="rounded-full font-black px-8 h-12 gap-2 border-2 border-[#0E6170] text-[#0E6170] hover:bg-[#0E6170] hover:text-white transition-all shadow-md active:scale-95"
@@ -155,12 +155,12 @@ export default function PayBillSearchPage() {
                     ) : filteredBills.length > 0 ? (
                       <div className="space-y-6 pr-4 pb-4">
                         {filteredBills.map((existingBill) => (
-                          <Card 
-                            key={existingBill.id} 
+                          <Card
+                            key={existingBill.id}
                             className={cn(
                               "group transition-all border-4 rounded-[1.5rem] shadow-md",
-                              existingBill.status === 'UNPAID' 
-                                ? "cursor-pointer border-transparent hover:border-[#0E6170] hover:shadow-2xl bg-white" 
+                              existingBill.status === 'UNPAID'
+                                ? "cursor-pointer border-transparent hover:border-[#0E6170] hover:shadow-2xl bg-white"
                                 : "border-gray-50 bg-gray-50/50 opacity-80"
                             )}
                             onClick={() => selectExistingBill(existingBill)}
@@ -200,8 +200,8 @@ export default function PayBillSearchPage() {
                       <div className="flex flex-col items-center justify-center h-full text-center p-12 space-y-4 opacity-60 min-h-[400px]">
                         <ReceiptText className="w-20 h-20 text-gray-300" />
                         <p className="text-2xl font-bold text-gray-400">
-                          {billViewMode === 'UNPAID' 
-                            ? "No pending bills found." 
+                          {billViewMode === 'UNPAID'
+                            ? "No pending bills found."
                             : "No payment history found."}
                         </p>
                       </div>
@@ -215,7 +215,7 @@ export default function PayBillSearchPage() {
       </main>
 
       {isKeyboardOpen && (
-        <FullKeyboard 
+        <FullKeyboard
           onKeyPress={handleKeyPress}
           onDelete={handleDelete}
           onClose={() => setIsKeyboardOpen(false)}

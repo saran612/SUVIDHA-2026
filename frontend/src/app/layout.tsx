@@ -1,14 +1,14 @@
 'use client';
 
-import type {Metadata, Viewport} from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import {LanguageProvider} from '@/context/LanguageContext';
-import {AuthProvider} from '@/context/AuthContext';
-import {Toaster} from '@/components/ui/toaster';
-import {KioskHeader} from '@/components/kiosk/KioskHeader';
-import {SessionTimeoutDialog} from '@/components/kiosk/SessionTimeoutDialog';
-import {KioskModeManager} from '@/components/kiosk/KioskModeManager';
-import {GlobalIdleSlideshow} from '@/components/kiosk/GlobalIdleSlideshow';
+import { LanguageProvider } from '@/context/LanguageContext';
+import { AuthProvider } from '@/context/AuthContext';
+import { Toaster } from '@/components/ui/toaster';
+import { KioskHeader } from '@/components/kiosk/KioskHeader';
+import { SessionTimeoutDialog } from '@/components/kiosk/SessionTimeoutDialog';
+import { KioskModeManager } from '@/components/kiosk/KioskModeManager';
+import { GlobalIdleSlideshow } from '@/components/kiosk/GlobalIdleSlideshow';
 import { usePathname } from 'next/navigation';
 
 export default function RootLayout({
@@ -29,14 +29,25 @@ export default function RootLayout({
         <title>SUVIDHA Kiosk - Smart Urban Virtual Interactive Digital Helpdesk Assistant</title>
         <meta name="description" content="A government-grade smart city kiosk for easy urban services." />
       </head>
-      <body className="font-body antialiased bg-background text-foreground h-screen overflow-hidden select-none touch-none">
+      <body suppressHydrationWarning className="font-body antialiased bg-white text-foreground h-screen w-screen overflow-hidden select-none touch-none flex flex-col">
         <LanguageProvider>
           <AuthProvider>
-            <div className="relative flex flex-col h-full w-full max-w-[1920px] mx-auto bg-white shadow-2xl overflow-hidden">
-              {!isAdminPage && <KioskHeader />}
-              <main className="flex-1 relative overflow-hidden">
-                {children}
-              </main>
+            {!isAdminPage && <KioskHeader />}
+
+            <div className="flex-1 w-full flex items-center justify-center overflow-hidden bg-white" style={{ containerType: 'size' }}>
+              <div
+                className="relative flex flex-col bg-white overflow-hidden"
+                style={{
+                  width: '100cqw',
+                  height: 'calc(100cqw * 10 / 16)',
+                  maxHeight: '100cqh',
+                  maxWidth: 'calc(100cqh * 16 / 10)',
+                }}
+              >
+                <main className="flex-1 relative overflow-hidden">
+                  {children}
+                </main>
+              </div>
             </div>
             {!isAdminPage && (
               <>

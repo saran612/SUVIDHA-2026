@@ -17,10 +17,27 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [language, setLanguageState] = useState<LanguageId>('en');
   const isMounted = useRef(false);
 
-  // Recover from session storage on mount to avoid hydration mismatch
+  // Recover from jwt/session storage on mount to avoid hydration mismatch
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const saved = sessionStorage.getItem('suvidha_lang') as LanguageId;
+      let langFromJwt: LanguageId | null = null;
+      const jwtToken = localStorage.getItem('jwt');
+
+      if (jwtToken) {
+        try {
+          const payloadBase64 = jwtToken.split('.')[1];
+          if (payloadBase64) {
+            const decodedPayload = JSON.parse(atob(payloadBase64));
+            if (decodedPayload.language) {
+              langFromJwt = decodedPayload.language as LanguageId;
+            }
+          }
+        } catch (error) {
+          console.error('Error decoding jwt for language:', error);
+        }
+      }
+
+      const saved = langFromJwt || (sessionStorage.getItem('suvidha_lang') as LanguageId);
       if (saved && saved !== 'en') {
         setLanguageState(saved);
       }
@@ -32,6 +49,18 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLanguageState(lang);
     if (typeof window !== 'undefined') {
       sessionStorage.setItem('suvidha_lang', lang);
+
+      // Store selected language in jwt as requested
+      try {
+        const payload = { language: lang, timestamp: Date.now() };
+        const jwtContent = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify(payload))}.mock_signature`;
+        localStorage.setItem('jwt', jwtContent);
+
+        // Also fire a storage event in case we want to sync across pages/tabs
+        window.dispatchEvent(new Event('storage'));
+      } catch (e) {
+        console.error('Failed to create jwt for language', e);
+      }
     }
   }, []);
 

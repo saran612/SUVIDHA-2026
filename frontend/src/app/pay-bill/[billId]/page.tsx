@@ -93,7 +93,7 @@ export default function BillDetailPage() {
         <div className="max-w-7xl mx-auto w-full h-full flex flex-col overflow-hidden">
           <div className="flex items-center mb-8 shrink-0">
             <div className="flex items-center gap-6">
-              <Button 
+              <Button
                 className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
                 onClick={handleBack}
               >
@@ -149,7 +149,7 @@ export default function BillDetailPage() {
                     <CreditCard className="w-6 h-6" />
                     Select Payment Mode
                   </h3>
-                  <Button 
+                  <Button
                     onClick={() => setView('BANK')}
                     className="flex-1 h-32 text-3xl font-black justify-start px-8 gap-8 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-[#0E6170] bg-white text-gray-800 transition-all active:scale-95 group"
                     variant="outline"
@@ -159,7 +159,7 @@ export default function BillDetailPage() {
                     </div>
                     {t('bank_payment')}
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => handlePay('UPI')}
                     className="flex-1 h-32 text-3xl font-black justify-start px-8 gap-8 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-purple-500/50 bg-white text-gray-800 transition-all active:scale-95 group"
                     variant="outline"
@@ -169,7 +169,7 @@ export default function BillDetailPage() {
                     </div>
                     {t('upi')}
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => handlePay('CASH')}
                     className="flex-1 h-32 text-3xl font-black justify-start px-8 gap-8 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-accent/50 bg-white text-gray-800 transition-all active:scale-95 group"
                     variant="outline"
@@ -192,7 +192,7 @@ export default function BillDetailPage() {
                     <ScrollArea className="h-full pr-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {ALL_INDIAN_BANKS.map((bank) => (
-                          <Card 
+                          <Card
                             key={bank.id}
                             onClick={() => setSelectedBank(bank.id)}
                             className={cn(
@@ -220,7 +220,7 @@ export default function BillDetailPage() {
                     <CreditCard className="w-6 h-6" />
                     Payment Method
                   </h3>
-                  <Button 
+                  <Button
                     onClick={() => handlePay('CREDIT')}
                     disabled={submitting}
                     className="flex-1 h-28 text-2xl font-black justify-start px-8 gap-6 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-blue-500/50 bg-white text-gray-800 transition-all active:scale-95 group"
@@ -231,7 +231,7 @@ export default function BillDetailPage() {
                     </div>
                     {t('credit_card')}
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => handlePay('DEBIT')}
                     disabled={submitting}
                     className="flex-1 h-28 text-2xl font-black justify-start px-8 gap-6 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-emerald-500/50 bg-white text-gray-800 transition-all active:scale-95 group"
@@ -242,7 +242,7 @@ export default function BillDetailPage() {
                     </div>
                     {t('debit_card')}
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => handlePay('NETBANKING')}
                     disabled={!selectedBank || submitting}
                     className="flex-1 h-28 text-2xl font-black justify-start px-8 gap-6 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-amber-500/50 bg-white text-gray-800 transition-all active:scale-95 group"

@@ -16,7 +16,7 @@ export default function PaymentSuccessPage() {
   const router = useRouter();
   const { billId, txnId } = useParams();
   const { toast } = useToast();
-  
+
   const [bill, setBill] = useState<BillData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -51,10 +51,10 @@ export default function PaymentSuccessPage() {
             )}
           </div>
           <p className="text-2xl font-bold text-gray-500 max-w-2xl mx-auto leading-relaxed">Your payment has been logged in the smart city registry. Please collect your printed receipt from the tray below.</p>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-12">
-            <Button 
-              className="h-28 text-3xl font-black gap-4 rounded-[2rem] shadow-xl border-4 border-gray-100 hover:bg-gray-50 bg-white text-gray-900" 
+            <Button
+              className="h-28 text-3xl font-black gap-4 rounded-[2rem] shadow-xl border-4 border-gray-100 hover:bg-gray-50 bg-white text-gray-900"
               variant="outline"
               onClick={() => {
                 toast({ title: "Printing...", description: "Your receipt is being printed." });
@@ -63,7 +63,7 @@ export default function PaymentSuccessPage() {
               <Printer className="w-12 h-12 text-[#0E6170]" />
               {t('print')}
             </Button>
-            <Button 
+            <Button
               className="h-28 text-3xl font-black rounded-[2rem] shadow-2xl bg-[#0E6170] text-white hover:bg-[#0E6170]/90"
               onClick={() => router.push('/dashboard')}
             >
