@@ -46,10 +46,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [dialogTimeLeft, setDialogTimeLeft] = useState(KIOSK_SETTINGS.LOGOUT_GRACE_PERIOD_SEC);
   const [showExtensionPrompt, setShowExtensionPrompt] = useState(false);
   const [isIdle, setIsIdle] = useState(false);
-  
+
   // Safe SSR initialization: Start with false, update in useEffect
   const [audioEnabled, setAudioEnabled] = useState(false);
-  
+
   const { setLanguage } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
@@ -90,7 +90,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetIdleTimer = useCallback(() => {
     if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    
+
     idleTimerRef.current = setTimeout(() => {
       setIsIdle(true);
       if (user) {
@@ -170,16 +170,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     if (!user || isLoading || showExtensionPrompt) return;
     const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          setShowExtensionPrompt(true);
-          return 0;
-        }
-        return prev - 1;
-      });
+      setTimeLeft((prev) => Math.max(0, prev - 1));
     }, 1000);
     return () => clearInterval(interval);
   }, [user, isLoading, showExtensionPrompt]);
+
+  useEffect(() => {
+    if (user && !isLoading && !showExtensionPrompt && timeLeft === 0) {
+      setShowExtensionPrompt(true);
+    }
+  }, [timeLeft, user, isLoading, showExtensionPrompt]);
 
   useEffect(() => {
     if (!showExtensionPrompt) {
@@ -187,16 +187,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
     const interval = setInterval(() => {
-      setDialogTimeLeft((prev) => {
-        if (prev <= 1) {
-          logout();
-          return 0;
-        }
-        return prev - 1;
-      });
+      setDialogTimeLeft((prev) => Math.max(0, prev - 1));
     }, 1000);
     return () => clearInterval(interval);
-  }, [showExtensionPrompt, logout]);
+  }, [showExtensionPrompt]);
+
+  useEffect(() => {
+    if (showExtensionPrompt && dialogTimeLeft === 0) {
+      logout();
+    }
+  }, [dialogTimeLeft, showExtensionPrompt, logout]);
 
   const extendSession = useCallback(() => {
     const newExpiryTime = Date.now() + (KIOSK_SETTINGS.EXTENSION_AMOUNT_SEC * 1000);
@@ -232,13 +232,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      login, 
-      logout, 
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
       extendSession,
-      isAuthenticated: !!user, 
-      isLoading, 
+      isAuthenticated: !!user,
+      isLoading,
       timeLeft,
       dialogTimeLeft,
       showExtensionPrompt,
