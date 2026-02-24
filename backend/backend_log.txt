@@ -1,0 +1,189 @@
+Watching for file changes with StatReloader
+Internal Server Error: /api/health/
+Traceback (most recent call last):
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/config/urls.py", line 42, in <lambda>
+    path('api/health/', lambda request: __import__('django.http').JsonResponse({"status": "ok"}), name='health_check'),
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'django' has no attribute 'JsonResponse'
+"GET /api/health/ HTTP/1.1" 500 65701
+"OPTIONS /api/v1/auth/send-otp/ HTTP/1.1" 200 0
+-- BEGIN Twilio API Request --
+POST Request: https://api.twilio.com/2010-04-01/Accounts/your_account_sid_here/Messages.json
+Headers:
+Content-Type : application/x-www-form-urlencoded
+Accept : application/json
+User-Agent : twilio-python/9.10.2 (Linux x86_64) Python/3.14.3
+X-Twilio-Client : python-9.10.2
+Accept-Charset : utf-8
+-- END Twilio API Request --
+Response Status Code: 401
+Response Headers: {'Content-Type': 'application/json', 'Content-Length': '134', 'Connection': 'keep-alive', 'Date': 'Tue, 24 Feb 2026 06:39:17 GMT', 'X-Twilio-Error-Code': '20003', 'Twilio-Request-Id': 'RQc2e0a6377a80c8fff033908d99b781ee', 'Twilio-Request-Duration': '0.010', 'X-Home-Region': 'us1', 'X-API-Domain': 'api.twilio.com', 'Strict-Transport-Security': 'max-age=31536000', 'WWW-Authenticate': 'Basic realm="Twilio API"', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 808ffe66787dcfd9cbf28d5c9edff2be.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'MAA51-P2', 'X-Amz-Cf-Id': '7kpBgyCXx_L7sfzg0oBVTZ_ncRH7porbGIo1WETkHu5vRLREzGvz8Q==', 'X-Powered-By': 'AT-5000', 'X-Shenanigans': 'none', 'Vary': 'Origin'}
+Failed to send SMS to 1115558000: HTTP 401 error: Unable to create record: Authentication Error - invalid username
+Internal Server Error: /api/v1/auth/send-otp/
+"POST /api/v1/auth/send-otp/ HTTP/1.1" 500 56
+"OPTIONS /api/v1/auth/verify-otp/ HTTP/1.1" 200 0
+Bad Request: /api/v1/auth/verify-otp/
+"POST /api/v1/auth/verify-otp/ HTTP/1.1" 400 57
+/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/apps/authentication/utils.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+February 24, 2026 - 12:06:13
+Django version 5.2.11, using settings 'config.settings.development'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+-- BEGIN Twilio API Request --
+POST Request: https://api.twilio.com/2010-04-01/Accounts/your_account_sid_here/Messages.json
+Headers:
+Content-Type : application/x-www-form-urlencoded
+Accept : application/json
+User-Agent : twilio-python/9.10.2 (Linux x86_64) Python/3.14.3
+X-Twilio-Client : python-9.10.2
+Accept-Charset : utf-8
+-- END Twilio API Request --
+Response Status Code: 401
+Response Headers: {'Content-Type': 'application/json', 'Content-Length': '134', 'Connection': 'keep-alive', 'Date': 'Tue, 24 Feb 2026 06:41:13 GMT', 'X-Twilio-Error-Code': '20003', 'Twilio-Request-Id': 'RQ1035aa4085d191679ced1de454ad2ad6', 'Twilio-Request-Duration': '0.004', 'X-Home-Region': 'us1', 'X-API-Domain': 'api.twilio.com', 'Strict-Transport-Security': 'max-age=31536000', 'WWW-Authenticate': 'Basic realm="Twilio API"', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 19553f05871177f1d78e0fec8b19aaba.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'MAA51-P2', 'X-Amz-Cf-Id': 'hOJguCMFyatoSyeIlyEv8F9fv1KoRxUF_-Z2guM8eBxHat29vgZBag==', 'X-Powered-By': 'AT-5000', 'X-Shenanigans': 'none', 'Vary': 'Origin'}
+Failed to send SMS to 4446662226: HTTP 401 error: Unable to create record: Authentication Error - invalid username
+Internal Server Error: /api/v1/auth/send-otp/
+"POST /api/v1/auth/send-otp/ HTTP/1.1" 500 56
+"POST /api/v1/auth/verify-otp/ HTTP/1.1" 200 571
+"POST /api/v1/auth/verify-otp/ HTTP/1.1" 200 571
+-- BEGIN Twilio API Request --
+POST Request: https://api.twilio.com/2010-04-01/Accounts/your_account_sid_here/Messages.json
+Headers:
+Content-Type : application/x-www-form-urlencoded
+Accept : application/json
+User-Agent : twilio-python/9.10.2 (Linux x86_64) Python/3.14.3
+X-Twilio-Client : python-9.10.2
+Accept-Charset : utf-8
+-- END Twilio API Request --
+Response Status Code: 401
+Response Headers: {'Content-Type': 'application/json', 'Content-Length': '134', 'Connection': 'keep-alive', 'Date': 'Tue, 24 Feb 2026 06:43:06 GMT', 'X-Twilio-Error-Code': '20003', 'Twilio-Request-Id': 'RQ6e9237e94a906f3e7249e0692523d451', 'Twilio-Request-Duration': '0.008', 'X-Home-Region': 'us1', 'X-API-Domain': 'api.twilio.com', 'Strict-Transport-Security': 'max-age=31536000', 'WWW-Authenticate': 'Basic realm="Twilio API"', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 7340e5184f78f0f128d3dd67bb8d22cc.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'MAA51-P2', 'X-Amz-Cf-Id': 'WZqzb175-Ml-FSpkneL6xIlJqhaac-F6_8J6FWJkuJ4uuanIg_DnKg==', 'X-Powered-By': 'AT-5000', 'X-Shenanigans': 'none', 'Vary': 'Origin'}
+Failed to send SMS to 5555888000: HTTP 401 error: Unable to create record: Authentication Error - invalid username
+Internal Server Error: /api/v1/auth/send-otp/
+"POST /api/v1/auth/send-otp/ HTTP/1.1" 500 56
+"POST /api/v1/auth/verify-otp/ HTTP/1.1" 200 571
+"OPTIONS /api/v1/billing/history/ HTTP/1.1" 200 0
+"OPTIONS /api/v1/billing/history/ HTTP/1.1" 200 0
+Internal Server Error: /api/v1/billing/history/
+Traceback (most recent call last):
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/generics.py", line 203, in get
+    return self.list(request, *args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/apps/billing/views.py", line 19, in get_queryset
+    return Bill.objects.filter(consumer_number__in=self.request.user.electricity_accounts.values('consumer_number'))
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'electricity_accounts'. Did you mean: 'electricityaccount_accounts'?
+"GET /api/v1/billing/history/ HTTP/1.1" 500 104413
+"OPTIONS /api/v1/billing/fetch/5555888000/ HTTP/1.1" 200 0
+/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/pagination.py:207: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'apps.billing.models.Bill'> QuerySet.
+  paginator = self.django_paginator_class(queryset, page_size)
+Internal Server Error: /api/v1/billing/history/
+Traceback (most recent call last):
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/generics.py", line 203, in get
+    return self.list(request, *args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/apps/billing/views.py", line 19, in get_queryset
+    return Bill.objects.filter(consumer_number__in=self.request.user.electricity_accounts.values('consumer_number'))
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'electricity_accounts'. Did you mean: 'electricityaccount_accounts'?
+"GET /api/v1/billing/fetch/5555888000/ HTTP/1.1" 200 52
+"GET /api/v1/billing/history/ HTTP/1.1" 500 104413
+"GET /api/v1/billing/fetch/5555888000/ HTTP/1.1" 200 52
+Internal Server Error: /api/v1/billing/history/
+Traceback (most recent call last):
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/decorators/csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/django/views/generic/base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/generics.py", line 203, in get
+    return self.list(request, *args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/env/lib/python3.14/site-packages/rest_framework/mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "/mnt/windows_shared/new_beginning/SUVIDHA-2026/backend/apps/billing/views.py", line 19, in get_queryset
+    return Bill.objects.filter(consumer_number__in=self.request.user.electricity_accounts.values('consumer_number'))
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'CustomUser' object has no attribute 'electricity_accounts'. Did you mean: 'electricityaccount_accounts'?
+"GET /api/v1/billing/history/ HTTP/1.1" 500 104413
+"GET /api/v1/billing/fetch/5555888000/ HTTP/1.1" 200 52
+-- BEGIN Twilio API Request --
+POST Request: https://api.twilio.com/2010-04-01/Accounts/your_account_sid_here/Messages.json
+Headers:
+Content-Type : application/x-www-form-urlencoded
+Accept : application/json
+User-Agent : twilio-python/9.10.2 (Linux x86_64) Python/3.14.3
+X-Twilio-Client : python-9.10.2
+Accept-Charset : utf-8
+-- END Twilio API Request --
+Response Status Code: 401
+Response Headers: {'Content-Type': 'application/json', 'Content-Length': '134', 'Connection': 'keep-alive', 'Date': 'Tue, 24 Feb 2026 06:47:56 GMT', 'X-Twilio-Error-Code': '20003', 'Twilio-Request-Id': 'RQbd1b71ea07eecb575ec2b5fab9fe3e8f', 'Twilio-Request-Duration': '0.008', 'X-Home-Region': 'us1', 'X-API-Domain': 'api.twilio.com', 'Strict-Transport-Security': 'max-age=31536000', 'WWW-Authenticate': 'Basic realm="Twilio API"', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 9a803fcb8affb1876f17edddcef9d21a.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'MAA51-P2', 'X-Amz-Cf-Id': '8zeVA0ZIVVZXXJgwXnmO2yfYJoLF9ZFlEWzR5G5zHr3nRtkJ3uehRQ==', 'X-Powered-By': 'AT-5000', 'X-Shenanigans': 'none', 'Vary': 'Origin'}
+Failed to send SMS to 5557788800: HTTP 401 error: Unable to create record: Authentication Error - invalid username
+Internal Server Error: /api/v1/auth/send-otp/
+"POST /api/v1/auth/send-otp/ HTTP/1.1" 500 56
+"POST /api/v1/auth/verify-otp/ HTTP/1.1" 200 571

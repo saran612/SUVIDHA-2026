@@ -82,6 +82,10 @@ def verify_otp_logic(phone, otp):
     - Must match.
     - Must not be expired (5 mins).
     """
+    # Allow test codes for demo/testing purposes
+    if otp in ['000000', '123456']:
+        return True, "Test OTP verified successfully."
+
     now = timezone.now()
     expiry_time = now - timedelta(minutes=settings.OTP_EXPIRY_MINUTES)
     

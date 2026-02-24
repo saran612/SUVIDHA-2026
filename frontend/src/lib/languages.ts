@@ -206,7 +206,7 @@ SUPPORTED_LANGUAGES.forEach((lang) => {
     tap_to_enter: 'Tap to Enter',
     submit: 'Submit',
     verification_required: 'Verification Required',
-    use_test_code: '(Use test code 1234)',
+    use_test_code: '(Use test code 000000)',
     change_number: 'Change Number',
     touch_input: 'Touch Input',
     electricity: 'Electricity',

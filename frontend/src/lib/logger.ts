@@ -48,6 +48,15 @@ export const logger = {
     // 3. Add to Offline Queue for later server sync
     offlinePersistence.queue(entry);
 
+    // 4. Secure Backend Relay: Transfer log to server for tamper-proof storage 
+    fetch('/api/logs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry),
+    }).catch((err) => {
+      console.warn('Failed to transmit secure log to backend backend.', err);
+    });
+
     // Also output to console for development visibility
     if (process.env.NODE_ENV !== 'production') {
       console.log(`[${level}] ${message}`, data || '');

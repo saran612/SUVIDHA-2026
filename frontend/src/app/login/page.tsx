@@ -33,7 +33,7 @@ export default function LoginPage() {
       const limit = activeTab === 'mobile' ? 10 : 12;
       if (identifier.length < limit) setIdentifier(prev => prev + key);
     } else {
-      if (otp.length < 4) setOtp(prev => prev + key);
+      if (otp.length < 6) setOtp(prev => prev + key);
     }
   };
 
@@ -61,21 +61,34 @@ export default function LoginPage() {
   };
 
   const handleVerify = async () => {
-    if (otp === '1234') {
-      const savedRegion = JSON.parse(sessionStorage.getItem('suvidha_temp_region') || '{"district":"New Delhi","state":"Delhi"}');
-      await login({
-        mobileNo: activeTab === 'mobile' ? identifier : undefined,
-        consumerNo: activeTab === 'consumer' ? identifier : undefined,
-        language: language,
-        region: savedRegion
-      });
-    } else {
+    setLoading(true);
+    try {
+      const response = await apiService.verifyOtp(identifier, otp);
+      if (response && response.token) {
+        const savedRegion = JSON.parse(sessionStorage.getItem('suvidha_temp_region') || '{"district":"New Delhi","state":"Delhi"}');
+        await login({
+          mobileNo: activeTab === 'mobile' ? identifier : undefined,
+          consumerNo: activeTab === 'consumer' ? identifier : undefined,
+          language: language,
+          region: savedRegion
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: t('error_otp'),
+        });
+        setOtp('');
+      }
+    } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: t('error_otp'),
+        description: 'Failed to verify OTP',
       });
       setOtp('');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,14 +111,14 @@ export default function LoginPage() {
 
   const isActionDisabled = step === 1
     ? (activeTab === 'mobile' ? identifier.length !== 10 : identifier.length < 5) || loading
-    : otp.length < 4 || loading;
+    : otp.length < 6 || loading;
 
   const handleAction = step === 1 ? handleGetOtp : handleVerify;
   const actionText = step === 1 ? (loading ? t('loading') : t('get_otp')) : (loading ? t('loading') : t('verify'));
 
   return (
     <div className="h-full flex flex-col bg-[#F8FAFB] overflow-hidden">
-      <VoiceInstruction text={step === 1 ? "Please sign in using your mobile or consumer number. Use the keypad to enter your details." : "A verification code has been sent. Please enter the four digit code using the keypad."} />
+      <VoiceInstruction text={step === 1 ? "Please sign in using your mobile or consumer number. Use the keypad to enter your details." : "A verification code has been sent. Please enter the six digit code using the keypad."} />
       <main className="flex-1 flex flex-col justify-center items-center p-4 sm:p-8 pb-32 overflow-hidden">
         <div className="flex flex-row w-full max-w-6xl items-start gap-4 sm:gap-8">
           <Button
@@ -158,7 +171,7 @@ export default function LoginPage() {
                       <p className="text-lg sm:text-xl font-bold text-gray-500 mb-2">{t('verification_required')}</p>
                       <p className="text-sm font-medium text-[#0E6170] mb-4">{t('use_test_code')}</p>
                       <Input
-                        placeholder="0 0 0 0"
+                        placeholder="0 0 0 0 0 0"
                         value={otp}
                         readOnly
                         className="h-16 sm:h-20 text-xl sm:text-3xl text-center font-black tracking-[0.5rem] sm:tracking-[1rem] rounded-2xl border-2 border-gray-100 bg-gray-50/50"

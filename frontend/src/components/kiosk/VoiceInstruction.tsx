@@ -1,9 +1,8 @@
-
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { speakInstruction } from '@/ai/flows/tts-flow';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface VoiceInstructionProps {
   text: string;
@@ -11,74 +10,76 @@ interface VoiceInstructionProps {
 
 /**
  * VoiceInstruction component to provide audio help text.
- * Temporarily disabled while keeping the logic in place.
+ * Uses native Web Speech API (Mozilla/Browser native TTS)
+ * to avoid AI quota limits or server latency.
  */
 export const VoiceInstruction = ({ text }: VoiceInstructionProps) => {
-  // --- TEMPORARILY DISABLED ---
-  const isDisabled = true;
-  // -----------------------------
-
   const { audioEnabled } = useAuth();
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const { language } = useLanguage();
   const lastSpokenText = useRef<string | null>(null);
 
   useEffect(() => {
-    if (isDisabled) return;
-    
-    // Reset and fetch if text changes or audio is re-enabled
-    if (!audioEnabled || lastSpokenText.current === text) return;
+    // Return early if disabled or same text
+    if (!audioEnabled || !text || lastSpokenText.current === text) return;
 
-    const fetchAudio = async () => {
+    if ('speechSynthesis' in window) {
+      // Map frontend lang models to BCP-47 identifiers broadly supported by native TTS
+      // Using Mozilla/Web Speech API format
+      const langMapping: Record<string, string> = {
+        en: 'en-IN',
+        hi: 'hi-IN',
+        bn: 'bn-IN',
+        te: 'te-IN',
+        mr: 'mr-IN',
+        ta: 'ta-IN',
+        ur: 'ur-PK',
+        gu: 'gu-IN',
+        kn: 'kn-IN',
+        ml: 'ml-IN',
+        or: 'or-IN',
+        pa: 'pa-IN',
+        as: 'as-IN',
+        ne: 'ne-NP',
+        sa: 'sa-IN'
+      };
+
+      const speechLang = langMapping[language] || 'en-IN';
+
+      const playVoice = () => {
+        // Cancel any currently playing speech to prevent overlap
+        window.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = speechLang;
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        utterance.onerror = (e) => {
+          console.warn('Speech synthesis error:', e);
+        };
+
+        window.speechSynthesis.speak(utterance);
+        lastSpokenText.current = text;
+      };
+
+      // Handle browser autoplay policy restrictions
       try {
-        const result = await speakInstruction(text);
-        if (result && result.media) {
-          setAudioUrl(result.media);
-          lastSpokenText.current = text;
-        }
-      } catch (error) {
-        console.error('Failed to generate voice instruction', error);
+        playVoice();
+      } catch (e) {
+        console.warn('Voice playback block bypassed, waiting for interaction...', e);
+      }
+    } else {
+      console.warn('Text-to-speech not supported in this browser.');
+    }
+
+    return () => {
+      // Clean up when unmounting
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
       }
     };
+  }, [text, audioEnabled, language]);
 
-    fetchAudio();
-  }, [text, audioEnabled, isDisabled]);
-
-  useEffect(() => {
-    if (isDisabled) return;
-
-    if (audioUrl && audioRef.current) {
-      const playAudio = () => {
-        if (!audioRef.current) return;
-        
-        audioRef.current.play().catch(e => {
-          console.warn('Voice playback blocked, waiting for user interaction', e);
-          
-          // Fallback: If blocked, wait for the first click anywhere on the page to trigger playback
-          const playOnInteraction = () => {
-            audioRef.current?.play().catch(() => {});
-            document.removeEventListener('click', playOnInteraction);
-            document.removeEventListener('touchstart', playOnInteraction);
-          };
-          
-          document.addEventListener('click', playOnInteraction);
-          document.addEventListener('touchstart', playOnInteraction);
-        });
-      };
-      
-      playAudio();
-    }
-  }, [audioUrl, isDisabled]);
-
-  if (isDisabled || !audioEnabled || !audioUrl) return null;
-
-  return (
-    <audio 
-      ref={audioRef} 
-      src={audioUrl} 
-      className="hidden" 
-      autoPlay={false}
-      controls={false}
-    />
-  );
+  return null; // Native TTS handles audio via OS, no audio element required
 };

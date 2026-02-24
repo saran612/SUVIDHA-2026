@@ -110,11 +110,7 @@ export default function LanguageSelection() {
       <VoiceInstruction text="Welcome to SUVIDHA Kiosk. Please select your preferred language to proceed." />
       <main className="flex-1 flex flex-col items-center overflow-hidden">
         <div className="relative text-center py-8 sm:py-10 px-6 w-full max-w-4xl shrink-0">
-          <h2 className="text-3xl sm:text-5xl font-black text-gray-900 mb-2 sm:mb-4 tracking-tight">Select your language</h2>
-          <h3 className="text-xl sm:text-3xl font-bold text-[#0E6170] mb-4 sm:mb-6">अपनी भाषा चुनें</h3>
-          <p className="text-base sm:text-lg text-gray-500 font-medium hidden sm:block">
-            Choose the language you are most comfortable with to proceed.
-          </p>
+          <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2 sm:mb-2 tracking-tight">Select your language</h2>
         </div>
 
         <div className="flex-1 w-full overflow-y-auto overflow-x-hidden px-6 touch-pan-y pointer-events-auto overscroll-contain pb-6">

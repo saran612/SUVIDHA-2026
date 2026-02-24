@@ -1,8 +1,9 @@
 /**
  * Centralized API service for SUVIDHA Kiosk.
- * Optimized for future backend microservices integration (OAuth2 + JWT).
- * Token management is strictly session-based.
+ * Now connected to real Django Backend API.
  */
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
 
 export interface BillData {
   id: string;
@@ -28,175 +29,260 @@ export interface ConnectionRequest {
   idNumber: string;
 }
 
-// Simulated JWT Token helper (Future: Replace with real Auth logic)
-const getAuthToken = () => sessionStorage.getItem('suvidha_token');
-
-/**
- * Mock persistence for prototype session.
- * In a real app, this would be a database call.
- */
-const getStoredRequests = () => {
-  if (typeof window === 'undefined') return {};
-  return JSON.parse(localStorage.getItem('suvidha_mock_requests') || '{}');
+const getAuthToken = () => {
+  if (typeof window !== 'undefined') {
+    return sessionStorage.getItem('suvidha_token');
+  }
+  return null;
 };
 
-const saveRequest = (id: string, data: any) => {
-  const requests = getStoredRequests();
-  requests[id] = {
-    ...data,
-    timestamp: new Date().toISOString(),
-    status: 'PENDING_VERIFICATION',
-    updates: [
-      { date: new Date().toLocaleDateString(), message: 'Application submitted successfully' },
-      { date: new Date().toLocaleDateString(), message: 'Sent for field officer assignment' }
-    ]
-  };
-  localStorage.setItem('suvidha_mock_requests', JSON.stringify(requests));
+const getHeaders = () => {
+  const token = getAuthToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+  }
 };
 
 export const apiService = {
   // Authentication (/api/auth/login)
   requestOtp: async (identifier: string): Promise<{ success: boolean }> => {
-    console.log(`[API] POST /api/auth/request-otp : ${identifier}`);
-    await new Promise((r) => setTimeout(r, 150));
-    return { success: true };
+    try {
+      console.log(`[API] POST /auth/send-otp/ : ${identifier}`);
+      const res = await fetch(`${API_BASE_URL}/auth/send-otp/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: identifier })
+      });
+      const data = await res.json();
+      return { success: data.status === true };
+    } catch (e) {
+      console.error(e);
+      return { success: false };
+    }
   },
 
   verifyOtp: async (identifier: string, otp: string): Promise<{ token: string; user: any }> => {
-    console.log(`[API] POST /api/auth/verify-otp : ${identifier}`);
-    await new Promise((r) => setTimeout(r, 200));
-    const mockToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${btoa(JSON.stringify({ sub: identifier }))}.mock`;
-    return {
-      token: mockToken,
-      user: { id: 'USR-' + identifier, name: 'Citizen User' }
-    };
+    try {
+      console.log(`[API] POST /auth/verify-otp/ : ${identifier}`);
+      const res = await fetch(`${API_BASE_URL}/auth/verify-otp/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: identifier, otp })
+      });
+      const data = await res.json();
+      if (data.status && data.token) {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('suvidha_token', data.token);
+        }
+        return {
+          token: data.token,
+          user: { id: data.user_id || 'USR-' + identifier, name: 'Citizen User' }
+        };
+      }
+      throw new Error(data.message || 'OTP verification failed');
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   // Billing (/api/billing/fetch)
   fetchBill: async (consumerNo: string): Promise<BillData> => {
-    console.log(`[API] GET /api/billing/fetch?consumerId=${consumerNo}`);
-    await new Promise((r) => setTimeout(r, 150));
-    return {
-      id: 'BILL' + Math.floor(Math.random() * 10000),
-      consumerNo,
-      name: 'Rajesh Kumar',
-      amount: 1450.00,
-      dueDate: '2024-05-20',
-      cycle: 'April 2024',
-      status: 'UNPAID'
-    };
+    try {
+      console.log(`[API] GET /billing/fetch/${consumerNo}/`);
+      const res = await fetch(`${API_BASE_URL}/billing/fetch/${consumerNo}/`, {
+        headers: getHeaders()
+      });
+      if (!res.ok) throw new Error('Failed to fetch bill');
+      const bills = await res.json();
+      if (!bills || bills.length === 0) throw new Error('Bill not found');
+
+      const b = bills[0];
+      return {
+        id: b.bill_id,
+        consumerNo: b.consumer_number,
+        name: 'Placeholder User',
+        amount: parseFloat(b.amount),
+        dueDate: b.due_date,
+        cycle: b.bill_date,
+        status: b.status === 'PAID' ? 'PAID' : 'UNPAID'
+      };
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   fetchUserBills: async (identifier: string): Promise<BillData[]> => {
-    console.log(`[API] GET /api/billing/user-bills?id=${identifier}`);
-    await new Promise((r) => setTimeout(r, 300));
-    return [
-      {
-        id: 'B-8821',
-        consumerNo: identifier,
-        name: 'Rajesh Kumar',
-        amount: 850.50,
-        dueDate: '2024-05-15',
-        cycle: 'Electricity - April',
-        status: 'UNPAID'
-      },
-      {
-        id: 'B-9912',
-        consumerNo: identifier,
-        name: 'Rajesh Kumar',
-        amount: 420.00,
-        dueDate: '2024-05-10',
-        cycle: 'Water - April',
-        status: 'UNPAID'
+    try {
+      console.log(`[API] GET /billing/history/`);
+      const res = await fetch(`${API_BASE_URL}/billing/history/`, {
+        headers: getHeaders()
+      });
+      if (!res.ok) {
+        // Fallback to fetch by identifier if history fails
+        const res2 = await fetch(`${API_BASE_URL}/billing/fetch/${identifier}/`, {
+          headers: getHeaders()
+        });
+        if (!res2.ok) return [];
+        const data = await res2.json();
+        return Array.isArray(data) ? data.map((b: any) => ({
+          id: b.bill_id,
+          consumerNo: b.consumer_number,
+          name: 'Placeholder User',
+          amount: parseFloat(b.amount),
+          dueDate: b.due_date,
+          cycle: b.bill_date,
+          status: b.status === 'PAID' ? 'PAID' : 'UNPAID'
+        })) : [];
       }
-    ];
+      const data = await res.json();
+      return Array.isArray(data) ? data.map((b: any) => ({
+        id: b.bill_id,
+        consumerNo: b.consumer_number,
+        name: 'Placeholder User',
+        amount: parseFloat(b.amount),
+        dueDate: b.due_date,
+        cycle: b.bill_date,
+        status: b.status === 'PAID' ? 'PAID' : 'UNPAID'
+      })) : [];
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
   },
 
   // Payment (/api/payment/initiate)
   initiatePayment: async (billId: string, method: string): Promise<{ success: boolean; transactionId: string }> => {
-    console.log(`[API] POST /api/payment/initiate (Method: ${method})`);
-    await new Promise((r) => setTimeout(r, 200));
-    return {
-      success: true,
-      transactionId: (method === 'CASH' ? 'TOKEN-' : 'TXN-') + Date.now(),
-    };
+    try {
+      console.log(`[API] POST /payment/initiate/ (Method: ${method})`);
+      const res = await fetch(`${API_BASE_URL}/payment/initiate/`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({ bill_id: billId, payload: { payment_method: method } })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Payment initiation failed');
+      return {
+        success: true,
+        transactionId: data.transaction_id || `TXN-${Date.now()}`
+      };
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   // New Connection (/api/services/new-connection)
   submitNewConnection: async (data: ConnectionRequest): Promise<{ referenceId: string }> => {
-    console.log(`[API] POST /api/services/new-connection (Admin Log: Future Sync Active)`);
-    await new Promise((r) => setTimeout(r, 400));
-    const referenceId = 'NC-' + Math.floor(Math.random() * 1000000);
-    saveRequest(referenceId, { ...data, type: 'NEW_CONNECTION' });
-    return { referenceId };
+    try {
+      console.log(`[API] POST /service/request/`);
+      const payload = {
+        service_type: 'NEW_CONNECTION',
+        description: `Category: ${data.category}, Name: ${data.name}, ID: ${data.idNumber}`,
+        location_data: {}
+      };
+      const res = await fetch(`${API_BASE_URL}/service/request/`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify(payload)
+      });
+      const responseData = await res.json();
+      return { referenceId: responseData.request_id || `NC-${Date.now()}` };
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   // Grievances (/api/grievance/submit)
   submitGrievance: async (type: string, description: string): Promise<GrievanceResponse> => {
-    console.log(`[API] POST /api/grievance/submit`);
-    await new Promise((r) => setTimeout(r, 200));
-    const referenceId = 'GRV-' + Math.floor(Math.random() * 1000000);
-    saveRequest(referenceId, { type: 'GRIEVANCE', category: type, description });
-    return {
-      referenceId,
-      status: 'SUBMITTED',
-      timestamp: new Date().toISOString(),
-    };
+    try {
+      console.log(`[API] POST /grievance/submit/`);
+      const res = await fetch(`${API_BASE_URL}/grievance/submit/`, {
+        method: 'POST',
+        headers: getHeaders(),
+        body: JSON.stringify({
+          category: type,
+          description: description,
+          location_data: {}
+        })
+      });
+      const data = await res.json();
+      return {
+        referenceId: data.complaint_id || `GRV-${Date.now()}`,
+        status: data.status || 'SUBMITTED',
+        timestamp: new Date().toISOString(),
+      };
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   // Status Tracking (/api/status/track)
   trackStatus: async (referenceId: string): Promise<{ status: string; updates: any[] } | null> => {
-    console.log(`[API] GET /api/status/track?ref=${referenceId}`);
-    await new Promise((r) => setTimeout(r, 250));
-    
-    // Check mock persistence
-    const requests = getStoredRequests();
-    if (requests[referenceId]) {
-      return {
-        status: requests[referenceId].status,
-        updates: requests[referenceId].updates,
-      };
-    }
-
-    // Default mock for demo purposes if ID doesn't exist
-    if (referenceId.startsWith('GRV-') || referenceId.startsWith('NC-')) {
+    try {
+      if (referenceId.startsWith('GRV')) {
+        const res = await fetch(`${API_BASE_URL}/grievance/track/${referenceId}/`, { headers: getHeaders() });
+        if (!res.ok) return null;
+        const data = await res.json();
         return {
-          status: 'IN_PROGRESS',
+          status: data.status,
           updates: [
-            { date: '2024-05-01', message: 'Request registered successfully' },
-            { date: '2024-05-02', message: 'Assigned to Ward Officer for verification' },
-          ],
+            { date: data.created_at || new Date().toISOString(), message: 'Grievance created' }
+          ]
         };
+      } else {
+        const res = await fetch(`${API_BASE_URL}/service/status/${referenceId}/`, { headers: getHeaders() });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return {
+          status: data.status,
+          updates: [
+            { date: data.created_at || new Date().toISOString(), message: 'Service request created' }
+          ]
+        };
+      }
+    } catch (e) {
+      console.error(e);
+      return null;
     }
-
-    return null;
   },
 
   // Admin Dashboard Services
   admin: {
     getDashboardStats: async () => {
-      console.log(`[API] GET /api/admin/stats`);
-      await new Promise((r) => setTimeout(r, 300));
-      const requests = getStoredRequests();
-      const allReqs = Object.values(requests) as any[];
-      
-      return {
-        totalRequests: allReqs.length,
-        newConnections: allReqs.filter(r => r.type === 'NEW_CONNECTION').length,
-        grievances: allReqs.filter(r => r.type === 'GRIEVANCE').length,
-        revenue: allReqs.length * 1450.50, // Mock revenue calculation
-        activeUsers: Math.floor(Math.random() * 50) + 10,
-      };
+      try {
+        console.log(`[API] GET /admin/dashboard/stats/`);
+        const res = await fetch(`${API_BASE_URL}/admin/dashboard/stats/`, {
+          headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to fetch stats');
+        const data = await res.json();
+        return {
+          totalRequests: data.total_grievances || 0,
+          newConnections: data.total_service_requests || 0,
+          grievances: data.total_grievances || 0,
+          revenue: data.total_revenue || 0,
+          activeUsers: data.total_users || 0,
+        };
+      } catch (e) {
+        console.error(e);
+        return {
+          totalRequests: 0,
+          newConnections: 0,
+          grievances: 0,
+          revenue: 0,
+          activeUsers: 0,
+        };
+      }
     },
-    
+
     getAllRequests: async () => {
-      console.log(`[API] GET /api/admin/requests`);
-      await new Promise((r) => setTimeout(r, 300));
-      const requests = getStoredRequests();
-      return Object.entries(requests).map(([id, data]) => ({
-        id,
-        ...(data as any)
-      })).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      // Mocking for now since admin endpoint for all requests might not exist in same format
+      return [];
     }
   }
 };
