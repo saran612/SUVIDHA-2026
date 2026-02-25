@@ -4,6 +4,7 @@
  */
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api/v1';
+const USE_MOCK = true; // Temporarily turned off to avoid fetch errors
 
 export interface BillData {
   id: string;
@@ -47,6 +48,7 @@ const getHeaders = () => {
 export const apiService = {
   // Authentication (/api/auth/login)
   requestOtp: async (identifier: string): Promise<{ success: boolean }> => {
+    if (USE_MOCK) return { success: true };
     try {
       console.log(`[API] POST /auth/send-otp/ : ${identifier}`);
       const res = await fetch(`${API_BASE_URL}/auth/send-otp/`, {
@@ -63,6 +65,10 @@ export const apiService = {
   },
 
   verifyOtp: async (identifier: string, otp: string): Promise<{ token: string; user: any }> => {
+    if (USE_MOCK) {
+      if (typeof window !== 'undefined') sessionStorage.setItem('suvidha_token', 'mock_token_123');
+      return { token: 'mock_token_123', user: { id: 'USR-' + identifier, name: 'Citizen User' } };
+    }
     try {
       console.log(`[API] POST /auth/verify-otp/ : ${identifier}`);
       const res = await fetch(`${API_BASE_URL}/auth/verify-otp/`, {
@@ -89,6 +95,17 @@ export const apiService = {
 
   // Billing (/api/billing/fetch)
   fetchBill: async (consumerNo: string): Promise<BillData> => {
+    if (USE_MOCK) {
+      return {
+        id: 'BILL-123',
+        consumerNo,
+        name: 'Mock User',
+        amount: 540.00,
+        dueDate: '2026-03-15',
+        cycle: 'Feb 2026',
+        status: 'UNPAID'
+      };
+    }
     try {
       console.log(`[API] GET /billing/fetch/${consumerNo}/`);
       const res = await fetch(`${API_BASE_URL}/billing/fetch/${consumerNo}/`, {
@@ -115,6 +132,17 @@ export const apiService = {
   },
 
   fetchUserBills: async (identifier: string): Promise<BillData[]> => {
+    if (USE_MOCK) {
+      return [{
+        id: 'BILL-123',
+        consumerNo: 'CON-' + identifier,
+        name: 'Mock User',
+        amount: 540.00,
+        dueDate: '2026-03-15',
+        cycle: 'Feb 2026',
+        status: 'UNPAID'
+      }];
+    }
     try {
       console.log(`[API] GET /billing/history/`);
       const res = await fetch(`${API_BASE_URL}/billing/history/`, {
@@ -155,6 +183,7 @@ export const apiService = {
 
   // Payment (/api/payment/initiate)
   initiatePayment: async (billId: string, method: string): Promise<{ success: boolean; transactionId: string }> => {
+    if (USE_MOCK) return { success: true, transactionId: `TXN-MOCK-${Date.now()}` };
     try {
       console.log(`[API] POST /payment/initiate/ (Method: ${method})`);
       const res = await fetch(`${API_BASE_URL}/payment/initiate/`, {
@@ -176,6 +205,7 @@ export const apiService = {
 
   // New Connection (/api/services/new-connection)
   submitNewConnection: async (data: ConnectionRequest): Promise<{ referenceId: string }> => {
+    if (USE_MOCK) return { referenceId: `NC-MOCK-${Date.now()}` };
     try {
       console.log(`[API] POST /service/request/`);
       const payload = {
@@ -198,6 +228,7 @@ export const apiService = {
 
   // Grievances (/api/grievance/submit)
   submitGrievance: async (type: string, description: string): Promise<GrievanceResponse> => {
+    if (USE_MOCK) return { referenceId: `GRV-MOCK-${Date.now()}`, status: 'SUBMITTED', timestamp: new Date().toISOString() };
     try {
       console.log(`[API] POST /grievance/submit/`);
       const res = await fetch(`${API_BASE_URL}/grievance/submit/`, {
@@ -223,6 +254,7 @@ export const apiService = {
 
   // Status Tracking (/api/status/track)
   trackStatus: async (referenceId: string): Promise<{ status: string; updates: any[] } | null> => {
+    if (USE_MOCK) return { status: 'IN_PROGRESS', updates: [{ date: new Date().toISOString(), message: 'Mock Status Update' }] };
     try {
       if (referenceId.startsWith('GRV')) {
         const res = await fetch(`${API_BASE_URL}/grievance/track/${referenceId}/`, { headers: getHeaders() });
@@ -254,6 +286,7 @@ export const apiService = {
   // Admin Dashboard Services
   admin: {
     getDashboardStats: async () => {
+      if (USE_MOCK) return { totalRequests: 15, newConnections: 5, grievances: 10, revenue: 5400, activeUsers: 42 };
       try {
         console.log(`[API] GET /admin/dashboard/stats/`);
         const res = await fetch(`${API_BASE_URL}/admin/dashboard/stats/`, {

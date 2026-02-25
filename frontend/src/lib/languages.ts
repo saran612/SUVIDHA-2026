@@ -222,6 +222,8 @@ SUPPORTED_LANGUAGES.forEach((lang) => {
     choose_category_desc: 'Select connection category',
     select_service: 'Select Service',
     select_category: 'Select Category',
+    check_usage: 'Check Usage',
+    reprint_receipts: 'Reprint Receipts',
   };
 
   // Overlay core keys

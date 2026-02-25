@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
-import { CreditCard, FileWarning, Search, PlusCircle } from 'lucide-react';
+import { CreditCard, FileWarning, Search, PlusCircle, Activity, Printer } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Loading from '@/app/loading';
 import { VoiceInstruction } from '@/components/kiosk/VoiceInstruction';
@@ -43,15 +43,29 @@ export default function Dashboard() {
       color: 'bg-rose-600',
       path: '/grievance'
     },
+    {
+      id: 'usage',
+      title: t('check_usage'),
+      icon: Activity,
+      color: 'bg-blue-600',
+      path: '/usage'
+    },
+    {
+      id: 'reprint',
+      title: t('reprint_receipts'),
+      icon: Printer,
+      color: 'bg-orange-500',
+      path: '/reprint'
+    },
   ];
 
   const handleNavigate = (path: string) => {
     if (path === '/dashboard' && window.location.pathname === '/dashboard') return;
-    
+
     setNavigating(true);
     setTimeout(() => {
       router.push(path);
-    }, 150); 
+    }, 150);
   };
 
   if (navigating) return <Loading />;
@@ -62,10 +76,10 @@ export default function Dashboard() {
       <main className="flex-1 p-6 sm:p-12 flex flex-col justify-center overflow-hidden">
         <div className="max-w-7xl mx-auto w-full">
           <h1 className="text-3xl sm:text-5xl font-black mb-8 sm:mb-12 text-center text-gray-900">{t('welcome')}</h1>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
             {menuItems.map((item) => (
-              <Card 
+              <Card
                 key={item.id}
                 onClick={() => handleNavigate(item.path)}
                 className="group cursor-pointer hover:shadow-2xl transition-all border-none overflow-hidden min-h-[140px] sm:h-64 bg-white rounded-[1.25rem]"

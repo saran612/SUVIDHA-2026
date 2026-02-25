@@ -1,0 +1,91 @@
+# SUVIDHA-2026 Project System Requirements
+
+This document outlines the system requirements and modules needed to run both the frontend and backend of the SUVIDHA-2026 application.
+
+## 1. Environment Requirements
+
+### Frontend Environment
+*   **Runtime:** Node.js (v18.x or v20.x recommended)
+*   **Package Manager:** npm (or yarn/pnpm)
+*   **Framework:** Next.js (Version 15.5.12) & React (Version 19.2.1)
+
+### Backend Environment
+*   **Language:** Python (v3.10+ recommended)
+*   **Framework:** Django (Version 5.0+)
+*   **Database:** PostgreSQL (requires `psycopg2-binary`)
+*   **Cache/Message Broker:** Redis (Required for Celery background tasks)
+
+---
+
+## 2. Backend Modules & Dependencies
+
+To install the backend modules, navigate to the `backend` directory and use pip with the provided requirement files.
+
+**Installation Command:**
+`pip install -r requirements/base.txt`
+*(For development, run: `pip install -r requirements/development.txt`)*
+
+**Core Python Packages (from base.txt):**
+*   `Django>=5.0,<6.0` - Web framework
+*   `djangorestframework>=3.14.0` - API framework
+*   `djangorestframework-simplejwt>=5.3.1` - JWT authentication
+*   `django-cors-headers>=4.3.1` - CORS support
+*   `django-filter>=23.5` - Queryset filtering
+*   `django-ratelimit>=4.1.0` - Rate limiting for API views
+*   `drf-yasg>=1.21.7` - Swagger/OpenAPI documentation generation
+*   `psycopg2-binary>=2.9.9` - PostgreSQL database adapter
+*   `redis>=5.0.1` - Redis connection module
+*   `celery>=5.3.6` - Background task processing queue
+*   `gunicorn>=21.2.0` - WSGI HTTP Server for production
+*   `Pillow>=10.2.0` - Python Imaging Library
+*   `python-dotenv>=1.0.1` - Loading environment variables
+*   `cryptography>=41.0.7` - Encryption module
+*   `django-extensions>=3.2.3` - Enhanced Django commands
+*   `pytest-django>=4.7.0` - Testing framework integration
+*   `twilio` - Twilio API client (SMS/Calls)
+*   `djangorestframework-api-key` - API key permissions for DRF
+*   `dj-database-url` - Database configuration from URL string
+
+**Development Specific Modules:**
+*   `black` & `flake8` - Code formatting and linting
+*   `pytest`, `pytest-cov`, `factory-boy` - Testing utilities
+
+---
+
+## 3. Frontend Modules & Dependencies
+
+To install the frontend modules, navigate to the `frontend` directory and use npm.
+
+**Installation Command:**
+`npm install`
+
+**Core Dependencies (from package.json):**
+*   **React & Next.js:** 
+    *   `next` (^15.5.12), `react` (^19.2.1), `react-dom` (^19.2.1)
+*   **UI & Component Libraries:**
+    *   `@radix-ui/react-*` (Accordion, Dialog, Dropdown Menu, Slider, Tabs, Select, etc.) - Unstyled accessible UI primitives.
+    *   `embla-carousel-react` - Carousel component
+    *   `react-day-picker` - Date picker component
+*   **AI Integration:**
+    *   `@genkit-ai/google-genai`, `@genkit-ai/next`, `genkit` (v1.20.0)
+*   **Mapping & Data Visualization:**
+    *   `leaflet` (^1.9.4), `react-leaflet` (^5.0.0) - Interactive maps
+    *   `recharts` (^2.15.1) - Charting library
+*   **Styling & Utilities:**
+    *   `tailwindcss`, `tailwindcss-animate`, `tailwind-merge` - Utility-first CSS styling
+    *   `lucide-react` - Iconography
+    *   `class-variance-authority`, `clsx` - Class-name management
+*   **Forms & Validation:**
+    *   `react-hook-form` - Form state management
+    *   `zod` - Schema validation
+    *   `@hookform/resolvers` - Zod integration for forms
+*   **Backend & Network Services:**
+    *   `firebase` - Firebase SDK
+    *   `dotenv` - Environment configurations
+    *   `date-fns` - Date manipulation utilities
+    *   `wav` - Audio file handling
+
+**Development Dependencies:**
+*   `typescript`, `@types/react`, `@types/node`, `@types/leaflet`
+*   `eslint`, `eslint-config-next`
+*   `genkit-cli`
