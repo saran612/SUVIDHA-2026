@@ -1,0 +1,15 @@
+# SUVIDHA-2026 Database System Requirements
+# ----------------------------------------
+# Note: The database layer for this application consists primarily of a SQL dump.
+# There are no standard package manager (pip, npm) dependencies required for the database layer directly.
+# The following lists the system-level software dependencies required.
+
+# Core Database Engine
+postgresql>=16.0,<17.0
+
+# Command Line Utilities (Optional but necessary to restore the dump)
+postgresql-client>=16.0
+
+# Supported Platforms
+# The database can run on any OS supporting PostgreSQL 16 (Linux, macOS, Windows).
+# A Docker environment is recommended to ensure consistency.
