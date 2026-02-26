@@ -71,25 +71,25 @@ export default function Dashboard() {
   if (navigating) return <Loading />;
 
   return (
-    <div className="h-[90vh] w-full flex flex-col bg-[#F8FAFB]">
+    <div className="h-full w-full flex flex-col bg-[#F8FAFB]">
       <VoiceInstruction text="Welcome to your dashboard. You can pay bills, apply for new utility connections, or track your submitted requests by tapping the cards on the screen." />
-      <main className="flex-1 p-6 sm:p-12 flex flex-col justify-center relative">
-        <div className="max-w-7xl mx-auto w-full">
-          <h1 className="text-3xl sm:text-5xl font-black mb-8 sm:mb-12 text-center text-gray-900">{t('welcome')}</h1>
+      <main className="flex-1 p-4 sm:p-8 flex flex-col justify-center relative">
+        <div className="max-w-6xl mx-auto w-full" style={{ zoom: 0.9 }}>
+          <h1 className="text-3xl sm:text-4xl font-black mb-6 sm:mb-8 text-center text-gray-900">{t('welcome')}</h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {menuItems.map((item) => (
               <Card
                 key={item.id}
                 onClick={() => handleNavigate(item.path)}
-                className="group cursor-pointer hover:shadow-2xl transition-all border-none overflow-hidden min-h-[140px] sm:h-64 bg-white rounded-[1.25rem]"
+                className="group cursor-pointer hover:shadow-2xl transition-all border-none overflow-hidden min-h-[120px] sm:h-56 bg-white rounded-[1.25rem]"
               >
                 <CardContent className="p-0 h-full flex flex-row">
-                  <div className={`${item.color} w-32 sm:w-48 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0`}>
-                    <item.icon className="w-12 h-12 sm:w-24 sm:h-24 text-white" />
+                  <div className={`${item.color} w-28 sm:w-40 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0`}>
+                    <item.icon className="w-10 h-10 sm:w-20 sm:h-20 text-white" />
                   </div>
-                  <div className="flex-1 flex items-center px-6 sm:px-10">
-                    <span className="text-xl sm:text-3xl font-black text-gray-800 group-hover:text-[#0E6170] transition-colors">{item.title}</span>
+                  <div className="flex-1 flex items-center px-6 sm:px-8">
+                    <span className="text-lg sm:text-3xl font-black text-gray-800 group-hover:text-[#0E6170] transition-colors">{item.title}</span>
                   </div>
                 </CardContent>
               </Card>
@@ -98,7 +98,7 @@ export default function Dashboard() {
         </div>
       </main>
 
-      <footer className="h-[10vh] px-6 sm:px-8 flex items-center justify-center text-center text-muted-foreground border-t bg-white shrink-0">
+      <footer className="h-[108px] px-6 sm:px-8 flex items-center justify-center text-center text-muted-foreground border-t bg-white shrink-0">
         <p className="text-base sm:text-lg font-medium">{t('footer_belongings')}</p>
       </footer>
     </div>

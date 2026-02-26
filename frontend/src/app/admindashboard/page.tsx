@@ -263,7 +263,7 @@ export default function AdminDashboard() {
   return (
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden w-full relative">
       {/* Admin Navbar */}
-      <header className="h-[10vh] px-3 sm:px-6 bg-white/70 backdrop-blur-md border-b flex items-center justify-between shadow-sm sticky top-0 z-50 shrink-0">
+      <header className="h-[108px] px-3 sm:px-6 bg-white/70 backdrop-blur-md border-b flex items-center justify-between shadow-sm sticky top-0 z-50 shrink-0">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" onClick={() => router.push('/')} title="Back to Kiosk">
             <ArrowLeft className="w-5 h-5" />

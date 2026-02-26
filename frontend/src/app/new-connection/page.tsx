@@ -10,7 +10,7 @@ import {
   ChevronLeft,
   ArrowRight,
   Zap,
-  Droplets,
+  Droplet,
   Flame,
   Home,
   Building2,
@@ -51,16 +51,64 @@ export default function NewConnectionPage() {
     else router.push('/dashboard');
   };
 
-  const services = [
-    { id: 'electricity', title: t('electricity'), icon: Zap, color: 'text-amber-500', bg: 'bg-amber-50' },
-    { id: 'water', title: t('water'), icon: Droplets, color: 'text-blue-500', bg: 'bg-blue-50' },
-    { id: 'gas', title: t('gas'), icon: Flame, color: 'text-rose-500', bg: 'bg-rose-50' },
-  ];
-
   const categories = [
     { id: 'domestic', title: t('domestic'), icon: Home, color: 'text-indigo-600', bg: 'bg-indigo-50' },
     { id: 'commercial', title: t('commercial'), icon: Building2, color: 'text-rose-600', bg: 'bg-rose-50' },
     { id: 'industrial', title: t('industrial'), icon: Factory, color: 'text-slate-600', bg: 'bg-slate-50' },
+  ];
+
+  const servicesData = [
+    {
+      id: 'electricity',
+      title: 'Electricity',
+      subtitle: 'NEW POWER CONNECTION',
+      icon: Zap,
+      theme: {
+        light: 'bg-amber-100',
+        iconColor: 'text-amber-500',
+        mainBg: 'bg-amber-500',
+        hoverBg: 'hover:bg-amber-600'
+      },
+      reqs: [
+        'Identity Proof (Aadhaar/PAN)',
+        'Address Proof (Lease/Deed)',
+        'Recent Photograph'
+      ]
+    },
+    {
+      id: 'water',
+      title: 'Water',
+      subtitle: 'NEW WATER CONNECTION',
+      icon: Droplet,
+      theme: {
+        light: 'bg-blue-100',
+        iconColor: 'text-blue-600',
+        mainBg: 'bg-blue-500',
+        hoverBg: 'hover:bg-blue-600'
+      },
+      reqs: [
+        'ID Proof & Property Tax Rec.',
+        'Building Plan Sanction',
+        'Passport Size Photo'
+      ]
+    },
+    {
+      id: 'gas',
+      title: 'Piped Gas',
+      subtitle: 'NEW GAS CONNECTION',
+      icon: Flame,
+      theme: {
+        light: 'bg-[#d1fae5]', // emerald-100
+        iconColor: 'text-[#059669]', // emerald-600
+        mainBg: 'bg-[#10b981]', // emerald-500
+        hoverBg: 'hover:bg-[#059669]' // emerald-600
+      },
+      reqs: [
+        'Identification Proof',
+        'Possession Letter / Rent Aggr.',
+        'KYC Document Pack'
+      ]
+    }
   ];
 
   const handleKeyPress = useCallback((key: string) => {
@@ -119,45 +167,83 @@ export default function NewConnectionPage() {
   if (loading && step !== 'SUCCESS') return <Loading />;
 
   return (
-    <div className="h-[90vh] w-full flex flex-col bg-background">
+    <div className="h-full w-full flex flex-col bg-background">
       <VoiceInstruction text={getVoiceText()} />
       <main className="flex-1 p-6 sm:p-12 flex flex-col">
         <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col">
-          <div className="flex items-center gap-6 mb-10 shrink-0">
-            <Button
-              className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
-              onClick={handleBack}
-            >
-              <ChevronLeft className="w-10 h-10" />
-            </Button>
-            <h1 className="text-4xl font-black text-gray-900">
-              {step === 'SUCCESS' ? t('success') : t('apply_new_connection')}
-            </h1>
-          </div>
-
           <div className="flex-1 overflow-y-auto">
             {step === 'SERVICE' && (
-              <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div className="text-center">
-                  <h2 className="text-3xl font-black text-gray-800">{t('select_service')}</h2>
-                  <p className="text-xl text-muted-foreground mt-2">{t('choose_service_desc')}</p>
+              <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-[1200px] mx-auto w-full pt-4">
+                <div className="text-center relative">
+                  <Button
+                    className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full h-14 w-14 p-0 bg-white border-2 border-gray-200 text-gray-500 shadow-sm hover:bg-gray-50 hidden md:flex items-center justify-center transition-all active:scale-95"
+                    onClick={handleBack}
+                  >
+                    <ChevronLeft className="w-8 h-8" />
+                  </Button>
+                  <h1 className="text-[3rem] font-black text-[#0f172a] mb-4 tracking-tight">Apply New Connection</h1>
+
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {services.map((item) => (
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-10">
+                  {servicesData.map((item) => (
                     <Card
                       key={item.id}
                       onClick={() => { setService(item.id); setStep('CATEGORY'); }}
-                      className="cursor-pointer border-4 border-transparent hover:border-primary transition-all hover:shadow-2xl rounded-[2rem] overflow-hidden group active:scale-95"
+                      className="relative cursor-pointer bg-white border-0 shadow-xl hover:shadow-2xl rounded-[2.5rem] overflow-hidden group active:scale-[0.98] transition-all flex flex-col pt-12 pb-8 px-8 min-h-[580px]"
                     >
-                      <CardContent className="p-10 flex flex-col items-center gap-6 text-center">
-                        <div className={cn("w-32 h-32 rounded-3xl flex items-center justify-center transition-transform group-hover:scale-110", item.bg)}>
-                          <item.icon className={cn("w-16 h-16", item.color)} />
+
+
+                      <div className="flex-1 flex flex-col items-center w-full z-10 space-y-8">
+                        {/* Icon */}
+                        <div className={cn("w-[6.5rem] h-[6.5rem] rounded-[1.75rem] flex items-center justify-center shadow-inner", item.theme.light)}>
+                          <item.icon className={cn("w-12 h-12", item.theme.iconColor)} strokeWidth={2.5} />
                         </div>
-                        <span className="text-2xl font-black text-gray-800">{item.title}</span>
-                      </CardContent>
+
+                        {/* Text */}
+                        <div className="text-center space-y-2">
+                          <h3 className="text-3xl font-black text-gray-900">{item.title}</h3>
+                          <p className={cn("text-sm font-bold tracking-wider", item.theme.iconColor)}>{item.subtitle}</p>
+                        </div>
+
+                        {/* Requirements List */}
+                        <div className="w-full text-left space-y-6 pt-6 border-t-[3px] border-gray-50/80">
+                          <p className="text-[13px] font-black text-gray-400 tracking-[0.15em]">REQUIREMENTS</p>
+                          <ul className="space-y-5">
+                            {item.reqs.map((req, idx) => (
+                              <li key={idx} className="flex items-center gap-4">
+                                <span className={cn("flex items-center justify-center w-[1.8rem] h-[1.8rem] rounded-full text-white font-black text-[13px] shrink-0", item.theme.mainBg)}>
+                                  {idx + 1}
+                                </span>
+                                <span className="text-gray-700 font-bold text-[15px]">{req}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <Button
+                        className={cn("w-full h-[4.5rem] text-[1.15rem] font-black rounded-2xl text-white transition-all shadow-lg active:scale-95 mt-10 z-10", item.theme.mainBg, item.theme.hoverBg)}
+                      >
+                        START APPLICATION
+                      </Button>
                     </Card>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {step !== 'SERVICE' && (
+              <div className="flex items-center gap-6 mb-10 shrink-0">
+                <Button
+                  className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0 transition-transform active:scale-95"
+                  onClick={handleBack}
+                >
+                  <ChevronLeft className="w-10 h-10" />
+                </Button>
+                <h1 className="text-4xl font-black text-gray-900">
+                  {step === 'SUCCESS' ? t('success') : t('apply_new_connection')}
+                </h1>
               </div>
             )}
 

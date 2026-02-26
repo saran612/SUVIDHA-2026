@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { apiService } from '@/lib/apiService';
 import { Send, CheckCircle2, ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { FullKeyboard } from '@/components/kiosk/FullKeyboard';
 
 export default function GrievancePage() {
   const { t } = useLanguage();
@@ -18,6 +19,7 @@ export default function GrievancePage() {
   const [desc, setDesc] = useState('');
   const [refId, setRefId] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -26,8 +28,16 @@ export default function GrievancePage() {
     setLoading(false);
   };
 
+  const handleKeyPress = (key: string) => {
+    setDesc((prev) => prev + key);
+  };
+
+  const handleDelete = () => {
+    setDesc((prev) => prev.slice(0, -1));
+  };
+
   return (
-    <div className="h-[90vh] flex flex-col bg-background">
+    <div className="h-full flex flex-col bg-background">
       <main className="flex-1 p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-6 mb-10">
@@ -54,10 +64,10 @@ export default function GrievancePage() {
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="water" className="text-xl py-4">Water Supply Issue</SelectItem>
-                      <SelectItem value="electricity" className="text-xl py-4">Street Light Failure</SelectItem>
-                      <SelectItem value="waste" className="text-xl py-4">Garbage Collection</SelectItem>
-                      <SelectItem value="road" className="text-xl py-4">Pothole Repair</SelectItem>
+                      <SelectItem value="gas" className="text-xl py-4">Gas</SelectItem>
+                      <SelectItem value="power" className="text-xl py-4">Power</SelectItem>
+                      <SelectItem value="municipal" className="text-xl py-4">Municipal</SelectItem>
+                      <SelectItem value="other" className="text-xl py-4">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -66,9 +76,10 @@ export default function GrievancePage() {
                   <label className="text-2xl font-bold">{t('description')}</label>
                   <Textarea
                     placeholder="Briefly describe the issue..."
-                    className="min-h-[250px] text-2xl p-6 rounded-xl border-2"
+                    className="min-h-[250px] text-2xl p-6 rounded-xl border-2 cursor-pointer focus:bg-white bg-gray-50"
                     value={desc}
-                    onChange={(e) => setDesc(e.target.value)}
+                    readOnly
+                    onClick={() => setIsKeyboardOpen(true)}
                   />
                 </div>
 
@@ -106,6 +117,24 @@ export default function GrievancePage() {
           )}
         </div>
       </main>
+
+      {isKeyboardOpen && (
+        <FullKeyboard
+          onKeyPress={handleKeyPress}
+          onDelete={handleDelete}
+          onClose={() => setIsKeyboardOpen(false)}
+          onSubmit={() => {
+            setIsKeyboardOpen(false);
+            if (type && desc.length > 0 && desc.length <= 500) {
+              handleSubmit();
+            }
+          }}
+          submitLabel={type && desc.length > 0 && desc.length <= 500 ? "Submit" : "Done"}
+          value={desc}
+          placeholder="Briefly describe the issue..."
+          maxLength={500}
+        />
+      )}
     </div>
   );
 }

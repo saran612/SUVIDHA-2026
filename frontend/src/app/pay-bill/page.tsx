@@ -75,7 +75,7 @@ export default function PayBillSearchPage() {
   const filteredBills = existingBills.filter(b => b.status === billViewMode);
 
   return (
-    <div className="h-[90vh] w-full flex flex-col bg-background">
+    <div className="h-full w-full flex flex-col bg-background">
       <main className="flex-1 p-6 sm:p-12 flex flex-col">
         <div className="max-w-7xl mx-auto w-full min-h-full flex flex-col">
           <div className="flex items-center mb-8 shrink-0">

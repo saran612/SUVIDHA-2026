@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { logger } from '@/lib/logger';
 import { NotificationSidebar } from './NotificationSidebar';
 import { useToast } from '@/hooks/use-toast';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 export const KioskHeader = () => {
   const { user, logout, isAuthenticated, timeLeft } = useAuth();
@@ -59,7 +60,7 @@ export const KioskHeader = () => {
   };
 
   return (
-    <header className="h-[10vh] px-3 sm:px-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
+    <header className="h-[108px] px-3 sm:px-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
       <div className="flex items-center gap-2 sm:gap-6">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-[#0E6170]/10 flex items-center justify-center">
@@ -134,13 +135,44 @@ export const KioskHeader = () => {
               </Button>
             </div>
 
-            <div className="hidden md:flex items-center gap-3 bg-gray-50 p-2 px-5 rounded-full border border-gray-200">
-              <User className="w-5 h-5 text-[#0E6170]" />
-              <div className="flex flex-col">
-                <span className="text-sm font-bold leading-tight">{user?.name}</span>
-                <span className="text-[10px] text-muted-foreground uppercase">{maskIdentifier(user?.consumerNo || user?.mobileNo || '')}</span>
-              </div>
-            </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <div className="hidden md:flex items-center gap-3 bg-gray-50 p-2 px-5 rounded-full border border-gray-200 cursor-pointer hover:bg-gray-100 transition-colors active:scale-95">
+                  <User className="w-5 h-5 text-[#0E6170]" />
+                  <div className="flex flex-col text-left">
+                    <span className="text-sm font-bold leading-tight">{user?.name}</span>
+                    <span className="text-[10px] text-muted-foreground uppercase">{maskIdentifier(user?.consumerNo || user?.mobileNo || '')}</span>
+                  </div>
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 rounded-[1.5rem] p-6 shadow-2xl border-gray-100 bg-white" align="end" sideOffset={12}>
+                <div className="flex flex-col gap-4">
+                  <div className="flex items-center gap-4 border-b border-gray-100 pb-4">
+                    <div className="w-12 h-12 rounded-full bg-[#0E6170]/10 flex items-center justify-center shrink-0">
+                      <User className="w-6 h-6 text-[#0E6170]" />
+                    </div>
+                    <div className="overflow-hidden">
+                      <h4 className="font-black text-lg text-gray-900 truncate">{user?.name}</h4>
+                      <p className="text-sm font-bold text-gray-500 truncate">{maskIdentifier(user?.consumerNo || user?.mobileNo || '')}</p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3 pt-2">
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-sm text-gray-500 font-medium whitespace-nowrap">Consumer No.</span>
+                      <span className="text-sm font-bold text-gray-900 truncate">{user?.consumerNo || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-sm text-gray-500 font-medium whitespace-nowrap">Mobile No.</span>
+                      <span className="text-sm font-bold text-gray-900 truncate">{user?.mobileNo || 'N/A'}</span>
+                    </div>
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="text-sm text-gray-500 font-medium whitespace-nowrap">Region</span>
+                      <span className="text-sm font-bold text-gray-900 truncate">{detectedRegion.district}, {detectedRegion.state}</span>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </>
         )}
 

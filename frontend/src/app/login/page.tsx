@@ -117,7 +117,7 @@ export default function LoginPage() {
   const actionText = step === 1 ? (loading ? t('loading') : t('get_otp')) : (loading ? t('loading') : t('verify'));
 
   return (
-    <div className="h-[90vh] w-full flex flex-col bg-[#F8FAFB]">
+    <div className="h-full w-full flex flex-col bg-[#F8FAFB]">
       <VoiceInstruction text={step === 1 ? "Please sign in using your mobile or consumer number. Use the keypad to enter your details." : "A verification code has been sent. Please enter the six digit code using the keypad."} />
       <main className="flex-1 w-full flex flex-col justify-center items-center p-4 sm:p-8 pb-32 relative">
         <div className="flex flex-col lg:flex-row w-full max-w-6xl items-center lg:items-start gap-4 lg:gap-8 pt-14 lg:pt-0 relative">
@@ -202,7 +202,7 @@ export default function LoginPage() {
         </div>
       </main>
 
-      <footer className="h-[10vh] w-full shrink-0 bg-white border-t border-gray-200 px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+      <footer className="h-[108px] w-full shrink-0 bg-white border-t border-gray-200 px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
         <div className="flex items-center gap-6 sm:gap-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0E6170] flex items-center justify-center shadow-lg">
@@ -223,7 +223,7 @@ export default function LoginPage() {
         <Button
           onClick={handleAction}
           disabled={isActionDisabled}
-          className="w-full sm:w-auto h-[7vh] min-h-[48px] max-h-[64px] px-8 sm:px-12 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-3 sm:gap-4 text-xl sm:text-2xl font-bold transition-all active:scale-95"
+          className="w-full sm:w-auto h-[75px] min-h-[48px] max-h-[64px] px-8 sm:px-12 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-3 sm:gap-4 text-xl sm:text-2xl font-bold transition-all active:scale-95"
         >
           <span>{actionText}</span>
           <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />

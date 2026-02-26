@@ -32,15 +32,15 @@ export default function PaymentSuccessPage() {
 
   return (
     <div className="min-h-full w-full flex flex-col bg-background p-4 sm:p-12 items-center justify-center py-10">
-      <Card className="text-center shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden max-w-4xl w-full bg-white my-auto">
-        <div className="bg-accent p-16 flex flex-col items-center shrink-0">
+      <Card className="text-center shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden max-w-4xl w-full bg-white my-auto print:shadow-none print:border-none print:max-w-full print:m-0 print:p-0">
+        <div className="bg-accent p-16 flex flex-col items-center shrink-0 print:py-8">
           <div className="h-40 w-40 rounded-full bg-white/20 flex items-center justify-center mb-8">
-            <CheckCircle2 className="w-24 h-24 text-white animate-bounce" />
+            <CheckCircle2 className="w-24 h-24 text-white animate-bounce print:animate-none" />
           </div>
           <h2 className="text-6xl font-black text-white">{t('success')}</h2>
           <p className="text-xl text-white/80 font-bold mt-4">Transaction Completed Successfully</p>
         </div>
-        <CardContent className="p-16 space-y-12 bg-white overflow-y-auto">
+        <CardContent className="p-16 space-y-12 bg-white overflow-y-auto print:p-8 print:overflow-visible">
           <div className="space-y-4">
             <p className="text-xl font-black text-muted-foreground uppercase tracking-[0.3em]">Official Receipt ID</p>
             <p className="text-6xl font-mono font-black text-[#0E6170] bg-gray-50 py-10 rounded-[2rem] border-4 border-dashed border-[#0E6170]/20">{txnId}</p>
@@ -50,14 +50,15 @@ export default function PaymentSuccessPage() {
               </p>
             )}
           </div>
-          <p className="text-2xl font-bold text-gray-500 max-w-2xl mx-auto leading-relaxed">Your payment has been logged in the smart city registry. Please collect your printed receipt from the tray below.</p>
+          <p className="text-2xl font-bold text-gray-500 max-w-2xl mx-auto leading-relaxed print:hidden">Your payment has been logged in the smart city registry. Please collect your printed receipt from the tray below.</p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-12 print:hidden">
             <Button
               className="h-28 text-3xl font-black gap-4 rounded-[2rem] shadow-xl border-4 border-gray-100 hover:bg-gray-50 bg-white text-gray-900"
               variant="outline"
               onClick={() => {
                 toast({ title: "Printing...", description: "Your receipt is being printed." });
+                setTimeout(() => window.print(), 300);
               }}
             >
               <Printer className="w-12 h-12 text-[#0E6170]" />

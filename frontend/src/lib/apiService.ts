@@ -133,15 +133,37 @@ export const apiService = {
 
   fetchUserBills: async (identifier: string): Promise<BillData[]> => {
     if (USE_MOCK) {
-      return [{
-        id: 'BILL-123',
-        consumerNo: 'CON-' + identifier,
-        name: 'Mock User',
-        amount: 540.00,
-        dueDate: '2026-03-15',
-        cycle: 'Feb 2026',
-        status: 'UNPAID'
-      }];
+      return [
+        {
+          id: 'BILL-2026-02',
+          consumerNo: 'CON-' + identifier,
+          name: 'Mukesh Sharma',
+          amount: 540.00,
+          dueDate: '2026-03-15',
+          cycle: 'Feb 2026',
+          status: 'UNPAID'
+        },
+        {
+          id: 'BILL-2026-01',
+          consumerNo: 'CON-' + identifier,
+          name: 'Mukesh Sharma',
+          amount: 610.50,
+          dueDate: '2026-02-15',
+          cycle: 'Jan 2026',
+          status: 'PAID',
+          paidDate: '2026-02-10'
+        },
+        {
+          id: 'BILL-2025-12',
+          consumerNo: 'CON-' + identifier,
+          name: 'Mukesh Sharma',
+          amount: 480.00,
+          dueDate: '2026-01-15',
+          cycle: 'Dec 2025',
+          status: 'PAID',
+          paidDate: '2026-01-14'
+        }
+      ];
     }
     try {
       console.log(`[API] GET /billing/history/`);
@@ -205,7 +227,27 @@ export const apiService = {
 
   // New Connection (/api/services/new-connection)
   submitNewConnection: async (data: ConnectionRequest): Promise<{ referenceId: string }> => {
-    if (USE_MOCK) return { referenceId: `NC-MOCK-${Date.now()}` };
+    if (USE_MOCK) {
+      const id = `NC-${Date.now().toString().slice(-6)}`;
+      const newReq = {
+        id,
+        type: 'New Connection',
+        category: data.category || 'General',
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        status: 'IN_PROGRESS',
+        iconName: 'Zap',
+        bg: 'bg-amber-50',
+        color: 'text-amber-500',
+        updates: [
+          { date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }), message: 'Application Submitted' }
+        ]
+      };
+      if (typeof window !== 'undefined') {
+        const existing = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
+        localStorage.setItem('suvidha_requests', JSON.stringify([newReq, ...existing]));
+      }
+      return { referenceId: id };
+    }
     try {
       console.log(`[API] POST /service/request/`);
       const payload = {
@@ -228,7 +270,27 @@ export const apiService = {
 
   // Grievances (/api/grievance/submit)
   submitGrievance: async (type: string, description: string): Promise<GrievanceResponse> => {
-    if (USE_MOCK) return { referenceId: `GRV-MOCK-${Date.now()}`, status: 'SUBMITTED', timestamp: new Date().toISOString() };
+    if (USE_MOCK) {
+      const id = `GRV-${Date.now().toString().slice(-6)}`;
+      const newReq = {
+        id,
+        type: 'Complaint',
+        category: type || 'General Grievance',
+        date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+        status: 'SUBMITTED',
+        iconName: 'AlertCircle',
+        bg: 'bg-rose-50',
+        color: 'text-rose-500',
+        updates: [
+          { date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }), message: 'Complaint Logged' }
+        ]
+      };
+      if (typeof window !== 'undefined') {
+        const existing = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
+        localStorage.setItem('suvidha_requests', JSON.stringify([newReq, ...existing]));
+      }
+      return { referenceId: id, status: 'SUBMITTED', timestamp: new Date().toISOString() };
+    }
     try {
       console.log(`[API] POST /grievance/submit/`);
       const res = await fetch(`${API_BASE_URL}/grievance/submit/`, {
@@ -254,7 +316,20 @@ export const apiService = {
 
   // Status Tracking (/api/status/track)
   trackStatus: async (referenceId: string): Promise<{ status: string; updates: any[] } | null> => {
-    if (USE_MOCK) return { status: 'IN_PROGRESS', updates: [{ date: new Date().toISOString(), message: 'Mock Status Update' }] };
+    if (USE_MOCK) {
+      if (typeof window !== 'undefined') {
+        const existing = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
+        const found = existing.find((req: any) => req.id === referenceId);
+        if (found) {
+          return {
+            status: found.status,
+            updates: found.updates || [{ date: found.date, message: 'Application Registered' }]
+          };
+        }
+      }
+      // If mock but specific ID not found in local storage, assume it exists out of system
+      return { status: 'IN_PROGRESS', updates: [{ date: new Date().toLocaleDateString('en-GB'), message: 'System processing request.' }] };
+    }
     try {
       if (referenceId.startsWith('GRV')) {
         const res = await fetch(`${API_BASE_URL}/grievance/track/${referenceId}/`, { headers: getHeaders() });
@@ -314,7 +389,25 @@ export const apiService = {
     },
 
     getAllRequests: async () => {
-      // Mocking for now since admin endpoint for all requests might not exist in same format
+      if (USE_MOCK) {
+        if (typeof window !== 'undefined') {
+          const stored = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
+          return stored.map((r: any) => {
+            // "25 Feb 2026" can usually be passed into Date directly, but we provide it as timestamp fallback safely.
+            const parsedDate = new Date(r.date);
+            return {
+              id: r.id,
+              type: r.type === 'New Connection' ? 'NEW_CONNECTION' : 'GRIEVANCE',
+              name: r.category,
+              category: r.category,
+              service: r.type,
+              timestamp: isNaN(parsedDate.getTime()) ? new Date().toISOString() : parsedDate.toISOString(),
+              status: r.status
+            };
+          });
+        }
+        return [];
+      }
       return [];
     }
   }
