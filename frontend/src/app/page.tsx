@@ -147,7 +147,7 @@ export default function LanguageSelection() {
         </div>
       </main>
 
-      <footer className="w-full bg-white border-t border-gray-200 p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] shrink-0">
+      <footer className="h-[10vh] w-full bg-white border-t border-gray-200 px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] shrink-0">
         <div className="flex items-center gap-6 sm:gap-10">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#0E6170] flex items-center justify-center shadow-lg">
@@ -168,10 +168,10 @@ export default function LanguageSelection() {
         <Button
           onClick={handleStart}
           disabled={!selectedId}
-          className="w-full sm:w-auto h-16 sm:h-20 px-10 sm:px-16 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-4 sm:gap-6 text-2xl sm:text-3xl font-bold transition-all active:scale-95"
+          className="w-full sm:w-auto h-[7vh] min-h-[48px] max-h-[64px] px-8 sm:px-12 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-3 sm:gap-4 text-xl sm:text-2xl font-bold transition-all active:scale-95"
         >
           <span>Start | शुरू करें</span>
-          <ArrowRight className="w-8 h-8 sm:w-10 sm:h-10" />
+          <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
         </Button>
       </footer>
     </div>

@@ -38,7 +38,7 @@ export default function ReprintPage() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F8FAFB]">
+        <div className="h-[90vh] flex flex-col bg-[#F8FAFB]">
             <main className="flex-1 p-6 sm:p-12 overflow-y-auto w-full">
                 <div className="max-w-4xl mx-auto w-full">
                     <div className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10 p-2">

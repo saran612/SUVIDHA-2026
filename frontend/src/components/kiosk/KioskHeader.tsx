@@ -8,10 +8,12 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { logger } from '@/lib/logger';
 import { NotificationSidebar } from './NotificationSidebar';
+import { useToast } from '@/hooks/use-toast';
 
 export const KioskHeader = () => {
   const { user, logout, isAuthenticated, timeLeft } = useAuth();
   const { t } = useLanguage();
+  const { toast } = useToast();
   const router = useRouter();
   const pathname = usePathname();
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -48,8 +50,16 @@ export const KioskHeader = () => {
 
   const isLanguagePage = pathname === '/';
 
+  const handleHelpClick = () => {
+    toast({
+      title: 'Connecting to Support...',
+      description: 'An assisted help representative will be with you shortly.',
+    });
+    logger.log('Assisted central support requested', 'ACTIVITY');
+  };
+
   return (
-    <header className="p-3 sm:p-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
+    <header className="h-[10vh] px-3 sm:px-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
       <div className="flex items-center gap-2 sm:gap-6">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-[#0E6170]/10 flex items-center justify-center">
@@ -134,7 +144,11 @@ export const KioskHeader = () => {
           </>
         )}
 
-        <Button variant="outline" className="rounded-full bg-white/80 border-gray-200 h-10 sm:h-12 px-3 sm:px-6 gap-2 sm:gap-3 shadow-sm hover:bg-white active:scale-95 transition-all">
+        <Button
+          variant="outline"
+          onClick={handleHelpClick}
+          className="rounded-full bg-white/80 border-gray-200 h-10 sm:h-12 px-3 sm:px-6 gap-2 sm:gap-3 shadow-sm hover:bg-white active:scale-95 transition-all"
+        >
           <Headset className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E6170]" />
           <span className="font-bold text-xs sm:text-sm">{t('assisted_help')}</span>
         </Button>

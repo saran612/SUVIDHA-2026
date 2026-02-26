@@ -29,13 +29,13 @@ export default function RootLayout({
         <title>SUVIDHA Kiosk - Smart Urban Virtual Interactive Digital Helpdesk Assistant</title>
         <meta name="description" content="A government-grade smart city kiosk for easy urban services." />
       </head>
-      <body suppressHydrationWarning className="font-body antialiased bg-white text-foreground h-screen w-screen overflow-hidden select-none touch-none flex flex-col">
+      <body suppressHydrationWarning className="font-body antialiased bg-white text-foreground min-h-screen w-full overflow-x-hidden flex flex-col select-none">
         <LanguageProvider>
           <AuthProvider>
             {!isAdminPage && <KioskHeader />}
 
-            <div className="flex-1 w-full flex items-center justify-center overflow-hidden bg-white">
-              <main className="w-full h-full relative overflow-hidden flex flex-col">
+            <div className="flex-1 w-full flex items-center justify-center bg-white overflow-y-auto overflow-x-hidden">
+              <main className="w-full min-h-full flex flex-col relative">
                 {children}
               </main>
             </div>

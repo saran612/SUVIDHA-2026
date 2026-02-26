@@ -31,8 +31,8 @@ export default function PaymentSuccessPage() {
   if (loading) return <Loading />;
 
   return (
-    <div className="h-full flex flex-col bg-background p-6 sm:p-12 overflow-hidden items-center justify-center">
-      <Card className="text-center shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden max-w-4xl w-full bg-white">
+    <div className="min-h-full w-full flex flex-col bg-background p-4 sm:p-12 items-center justify-center py-10">
+      <Card className="text-center shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden max-w-4xl w-full bg-white my-auto">
         <div className="bg-accent p-16 flex flex-col items-center shrink-0">
           <div className="h-40 w-40 rounded-full bg-white/20 flex items-center justify-center mb-8">
             <CheckCircle2 className="w-24 h-24 text-white animate-bounce" />

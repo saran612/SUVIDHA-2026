@@ -88,9 +88,9 @@ export default function BillDetailPage() {
   if (loading || !bill) return <Loading />;
 
   return (
-    <div className="h-full flex flex-col bg-background overflow-hidden">
-      <main className="flex-1 p-6 sm:p-12 flex flex-col overflow-hidden">
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col overflow-hidden">
+    <div className="min-h-full w-full flex flex-col bg-background">
+      <main className="flex-1 p-6 sm:p-12 flex flex-col">
+        <div className="max-w-7xl mx-auto w-full min-h-full flex flex-col">
           <div className="flex items-center mb-8 shrink-0">
             <div className="flex items-center gap-6">
               <Button
@@ -105,7 +105,7 @@ export default function BillDetailPage() {
             </div>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-hidden">
+          <div className="flex-1 min-h-0">
             {view === 'MODE' ? (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
                 <Card className="lg:col-span-2 shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white h-full">
@@ -182,8 +182,8 @@ export default function BillDetailPage() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full overflow-hidden">
-                <div className="lg:col-span-2 flex flex-col overflow-hidden h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
+                <div className="lg:col-span-2 flex flex-col h-full">
                   <h3 className="text-2xl font-black mb-6 flex items-center gap-2">
                     <Building2 className="w-7 h-7 text-[#0E6170]" />
                     {t('select_bank')}

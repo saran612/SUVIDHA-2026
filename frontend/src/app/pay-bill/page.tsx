@@ -75,9 +75,9 @@ export default function PayBillSearchPage() {
   const filteredBills = existingBills.filter(b => b.status === billViewMode);
 
   return (
-    <div className="h-full flex flex-col bg-background overflow-hidden">
-      <main className="flex-1 p-6 sm:p-12 flex flex-col overflow-hidden">
-        <div className="max-w-7xl mx-auto w-full h-full flex flex-col overflow-hidden">
+    <div className="h-[90vh] w-full flex flex-col bg-background">
+      <main className="flex-1 p-6 sm:p-12 flex flex-col">
+        <div className="max-w-7xl mx-auto w-full min-h-full flex flex-col">
           <div className="flex items-center mb-8 shrink-0">
             <div className="flex items-center gap-6">
               <Button
@@ -90,9 +90,9 @@ export default function PayBillSearchPage() {
             </div>
           </div>
 
-          <div className="flex-1 min-0 overflow-hidden">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full overflow-hidden">
-              <div className="flex flex-col h-full overflow-hidden">
+          <div className="flex-1 min-0">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full">
+              <div className="flex flex-col h-full">
                 <h2 className="text-2xl font-black text-gray-700 mb-6 flex items-center gap-2">
                   <ReceiptText className="w-6 h-6 text-[#0E6170]" />
                   {t('manual_search')}
@@ -128,7 +128,7 @@ export default function PayBillSearchPage() {
                 </Card>
               </div>
 
-              <div className="flex flex-col h-full overflow-hidden">
+              <div className="flex flex-col h-full mt-8 lg:mt-0">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-black text-gray-700 flex items-center gap-2">
                     <CheckCircle2 className="w-6 h-6 text-accent" />

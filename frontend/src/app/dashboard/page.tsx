@@ -71,9 +71,9 @@ export default function Dashboard() {
   if (navigating) return <Loading />;
 
   return (
-    <div className="h-full flex flex-col bg-[#F8FAFB] overflow-hidden">
+    <div className="h-[90vh] w-full flex flex-col bg-[#F8FAFB]">
       <VoiceInstruction text="Welcome to your dashboard. You can pay bills, apply for new utility connections, or track your submitted requests by tapping the cards on the screen." />
-      <main className="flex-1 p-6 sm:p-12 flex flex-col justify-center overflow-hidden">
+      <main className="flex-1 p-6 sm:p-12 flex flex-col justify-center relative">
         <div className="max-w-7xl mx-auto w-full">
           <h1 className="text-3xl sm:text-5xl font-black mb-8 sm:mb-12 text-center text-gray-900">{t('welcome')}</h1>
 
@@ -98,7 +98,7 @@ export default function Dashboard() {
         </div>
       </main>
 
-      <footer className="p-6 sm:p-8 text-center text-muted-foreground border-t bg-white shrink-0">
+      <footer className="h-[10vh] px-6 sm:px-8 flex items-center justify-center text-center text-muted-foreground border-t bg-white shrink-0">
         <p className="text-base sm:text-lg font-medium">{t('footer_belongings')}</p>
       </footer>
     </div>

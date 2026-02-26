@@ -6,14 +6,14 @@ import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { 
-  ChevronLeft, 
-  ArrowRight, 
-  Zap, 
-  Droplets, 
-  Flame, 
-  Home, 
-  Building2, 
+import {
+  ChevronLeft,
+  ArrowRight,
+  Zap,
+  Droplets,
+  Flame,
+  Home,
+  Building2,
   Factory,
   CheckCircle2,
   User,
@@ -81,7 +81,7 @@ export default function NewConnectionPage() {
 
   const handleSubmit = async () => {
     if (!service || !category) return;
-    
+
     setLoading(true);
     try {
       const response = await apiService.submitNewConnection({
@@ -90,7 +90,7 @@ export default function NewConnectionPage() {
         name: applicantName,
         idNumber
       });
-      
+
       setRefId(response.referenceId);
       setStep('SUCCESS');
       logger.log(`New Connection application submitted: ${response.referenceId}`, 'INFO', { service, category });
@@ -107,7 +107,7 @@ export default function NewConnectionPage() {
   };
 
   const getVoiceText = () => {
-    switch(step) {
+    switch (step) {
       case 'SERVICE': return "Select the type of utility connection you wish to apply for, such as electricity or water.";
       case 'CATEGORY': return "Choose your connection category. Is this for a home, a business, or an industrial site?";
       case 'DETAILS': return "Please enter your full name and identification number. Tap the input boxes to use the keyboard.";
@@ -119,12 +119,12 @@ export default function NewConnectionPage() {
   if (loading && step !== 'SUCCESS') return <Loading />;
 
   return (
-    <div className="h-full flex flex-col bg-background overflow-hidden">
+    <div className="h-[90vh] w-full flex flex-col bg-background">
       <VoiceInstruction text={getVoiceText()} />
-      <main className="flex-1 p-6 sm:p-12 flex flex-col overflow-hidden">
-        <div className="max-w-6xl mx-auto w-full h-full flex flex-col">
+      <main className="flex-1 p-6 sm:p-12 flex flex-col">
+        <div className="max-w-6xl mx-auto w-full min-h-full flex flex-col">
           <div className="flex items-center gap-6 mb-10 shrink-0">
-            <Button 
+            <Button
               className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
               onClick={handleBack}
             >
@@ -144,7 +144,7 @@ export default function NewConnectionPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {services.map((item) => (
-                    <Card 
+                    <Card
                       key={item.id}
                       onClick={() => { setService(item.id); setStep('CATEGORY'); }}
                       className="cursor-pointer border-4 border-transparent hover:border-primary transition-all hover:shadow-2xl rounded-[2rem] overflow-hidden group active:scale-95"
@@ -169,7 +169,7 @@ export default function NewConnectionPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {categories.map((item) => (
-                    <Card 
+                    <Card
                       key={item.id}
                       onClick={() => { setCategory(item.id); setStep('DETAILS'); }}
                       className="cursor-pointer border-4 border-transparent hover:border-primary transition-all hover:shadow-2xl rounded-[2rem] overflow-hidden group active:scale-95"
@@ -198,7 +198,7 @@ export default function NewConnectionPage() {
                         <User className="w-6 h-6 text-primary" />
                         {t('applicant_name')}
                       </label>
-                      <Input 
+                      <Input
                         value={applicantName}
                         readOnly
                         placeholder={t('tap_to_enter')}
@@ -211,7 +211,7 @@ export default function NewConnectionPage() {
                         <CreditCard className="w-6 h-6 text-primary" />
                         {t('identity_proof')}
                       </label>
-                      <Input 
+                      <Input
                         value={idNumber}
                         readOnly
                         placeholder={t('tap_to_enter')}
@@ -219,7 +219,7 @@ export default function NewConnectionPage() {
                         className="h-20 text-3xl font-bold rounded-2xl border-2 bg-gray-50 focus:bg-white cursor-pointer transition-all"
                       />
                     </div>
-                    <Button 
+                    <Button
                       className="w-full h-24 text-3xl font-black rounded-2xl bg-[#0E6170] text-white shadow-xl flex gap-4 mt-6"
                       onClick={handleSubmit}
                       disabled={applicantName.length < 3 || idNumber.length < 5 || loading}
@@ -247,17 +247,17 @@ export default function NewConnectionPage() {
                       <p className="text-7xl font-mono font-black text-emerald-600 bg-gray-50 py-12 rounded-[2rem] border-4 border-dashed border-emerald-100">{refId}</p>
                     </div>
                     <p className="text-2xl font-bold text-gray-500 leading-relaxed">
-                      Your application for a new <span className="text-emerald-600">{service?.toUpperCase()}</span> connection has been registered. 
+                      Your application for a new <span className="text-emerald-600">{service?.toUpperCase()}</span> connection has been registered.
                       A field officer will visit the location for site verification within 3 working days.
                     </p>
                     <div className="pt-8 flex flex-col sm:flex-row gap-6 justify-center">
-                      <Button 
+                      <Button
                         className="h-24 px-12 text-3xl font-black rounded-[1.5rem] bg-gray-100 text-gray-800 hover:bg-gray-200"
                         onClick={() => router.push('/dashboard')}
                       >
                         {t('dashboard')}
                       </Button>
-                      <Button 
+                      <Button
                         className="h-24 px-12 text-3xl font-black rounded-[1.5rem] bg-[#0E6170] text-white hover:bg-[#0E6170]/90 shadow-xl flex gap-4"
                         onClick={() => router.push('/status')}
                       >
@@ -274,7 +274,7 @@ export default function NewConnectionPage() {
       </main>
 
       {isKeyboardOpen && (
-        <FullKeyboard 
+        <FullKeyboard
           onKeyPress={handleKeyPress}
           onDelete={handleDelete}
           onClose={() => setIsKeyboardOpen(false)}

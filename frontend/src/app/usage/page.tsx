@@ -25,7 +25,7 @@ export default function UsagePage() {
     ];
 
     return (
-        <div className="min-h-screen flex flex-col bg-[#F8FAFB]">
+        <div className="h-[90vh] flex flex-col bg-[#F8FAFB]">
             <main className="flex-1 p-6 sm:p-12 overflow-y-auto">
                 <div className="max-w-5xl mx-auto">
                     <div className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10">

@@ -6,6 +6,13 @@ export default {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'sm': '640px',   // Mobile / Tablet Portrait
+      'md': '768px',   // Tablet Landscape
+      'lg': '1024px',  // Laptop / Small Desktop
+      'xl': '1280px',  // Desktop
+      '2xl': '1536px', // Large Screens
+    },
     extend: {
       fontFamily: {
         body: ['PT Sans', 'sans-serif'],

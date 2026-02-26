@@ -27,11 +27,11 @@ export default function GrievancePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="h-[90vh] flex flex-col bg-background">
       <main className="flex-1 p-12 overflow-y-auto">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-6 mb-10">
-            <Button 
+            <Button
               className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
               onClick={() => router.push('/dashboard')}
             >
@@ -64,7 +64,7 @@ export default function GrievancePage() {
 
                 <div className="space-y-4">
                   <label className="text-2xl font-bold">{t('description')}</label>
-                  <Textarea 
+                  <Textarea
                     placeholder="Briefly describe the issue..."
                     className="min-h-[250px] text-2xl p-6 rounded-xl border-2"
                     value={desc}
@@ -72,7 +72,7 @@ export default function GrievancePage() {
                   />
                 </div>
 
-                <Button 
+                <Button
                   className="w-full h-24 text-3xl font-bold rounded-2xl shadow-xl bg-accent hover:bg-accent/90 gap-4"
                   onClick={handleSubmit}
                   disabled={!type || !desc || loading}
@@ -94,8 +94,8 @@ export default function GrievancePage() {
                   <p className="text-5xl font-mono font-black text-primary bg-secondary p-8 rounded-2xl border-4 border-dashed">{refId}</p>
                 </div>
                 <p className="text-2xl">Your request has been submitted. You will receive SMS updates on your registered mobile number.</p>
-                
-                <Button 
+
+                <Button
                   className="h-24 px-12 text-3xl font-bold rounded-2xl shadow-lg bg-primary hover:bg-primary/90 mt-12"
                   onClick={() => router.push('/dashboard')}
                 >
