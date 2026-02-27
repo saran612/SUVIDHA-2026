@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { CheckCircle2, Printer } from 'lucide-react';
+import { CheckCircle2, Printer, ChevronLeft } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import { formatINR } from '@/lib/utils';
 import { apiService, BillData } from '@/lib/apiService';
@@ -31,7 +31,15 @@ export default function PaymentSuccessPage() {
   if (loading) return <Loading />;
 
   return (
-    <div className="min-h-full w-full flex flex-col bg-background p-4 sm:p-12 items-center justify-center py-10">
+    <div className="min-h-full w-full flex flex-col bg-background p-4 sm:p-12 items-center justify-center py-10 relative">
+      <div className="absolute top-8 left-8 sm:top-12 sm:left-12 print:hidden z-10">
+        <Button
+          className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
+          onClick={() => router.push('/pay-bill')}
+        >
+          <ChevronLeft className="w-10 h-10" />
+        </Button>
+      </div>
       <Card className="text-center shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden max-w-4xl w-full bg-white my-auto print:shadow-none print:border-none print:max-w-full print:m-0 print:p-0">
         <div className="bg-accent p-16 flex flex-col items-center shrink-0 print:py-8">
           <div className="h-40 w-40 rounded-full bg-white/20 flex items-center justify-center mb-8">

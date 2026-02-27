@@ -46,6 +46,9 @@ export const KioskHeader = () => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(console.error);
       logger.log('Kiosk Mode (Fullscreen) killed by user', 'INFO');
+    } else {
+      document.documentElement.requestFullscreen().catch(console.error);
+      logger.log('Kiosk Mode (Fullscreen) enabled by user', 'INFO');
     }
   };
 

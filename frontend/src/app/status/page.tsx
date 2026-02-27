@@ -134,7 +134,7 @@ export default function StatusPage() {
                   </Card>
                 ) : (
                   <Card className="shadow-xl border border-gray-100 rounded-[1.5rem] overflow-hidden flex flex-col bg-white flex-1 relative">
-                    <CardContent className="p-6 sm:p-8 space-y-6 flex-1 flex flex-col overflow-y-auto">
+                    <CardContent className="p-6 sm:p-8 space-y-6 flex-1 flex flex-col overflow-hidden">
                       {/* Header from design */}
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-100 pb-6">
                         <div>

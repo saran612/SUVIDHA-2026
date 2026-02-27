@@ -135,6 +135,24 @@ export const apiService = {
     if (USE_MOCK) {
       return [
         {
+          id: 'BILL-2026-04',
+          consumerNo: 'CON-' + identifier,
+          name: 'Mukesh Sharma',
+          amount: 1020.00,
+          dueDate: '2026-05-05',
+          cycle: 'Apr 2026',
+          status: 'UNPAID'
+        },
+        {
+          id: 'BILL-2026-03',
+          consumerNo: 'CON-' + identifier,
+          name: 'Mukesh Sharma',
+          amount: 750.00,
+          dueDate: '2026-04-10',
+          cycle: 'Mar 2026',
+          status: 'UNPAID'
+        },
+        {
           id: 'BILL-2026-02',
           consumerNo: 'CON-' + identifier,
           name: 'Mukesh Sharma',

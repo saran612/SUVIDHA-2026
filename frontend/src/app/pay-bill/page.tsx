@@ -86,7 +86,7 @@ export default function PayBillSearchPage() {
               >
                 <ChevronLeft className="w-10 h-10" />
               </Button>
-              <h1 className="text-3xl sm:text-5xl font-black text-gray-900">{t('pay_bill')}</h1>
+              <h1 className="text-3xl sm:text-5xl font-black text-gray-900">{t('Pay Bill')}</h1>
             </div>
           </div>
 
@@ -95,15 +95,15 @@ export default function PayBillSearchPage() {
               <div className="flex flex-col h-full">
                 <h2 className="text-2xl font-black text-gray-700 mb-6 flex items-center gap-2">
                   <ReceiptText className="w-6 h-6 text-[#0E6170]" />
-                  {t('manual_search')}
+                  {t('Manual Search')}
                 </h2>
                 <Card className="shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white flex-1">
                   <CardHeader className="py-8 text-center border-b bg-gray-50/50">
-                    <CardTitle className="text-2xl font-black text-gray-800">{t('consumer_no')}</CardTitle>
+                    <CardTitle className="text-2xl font-black text-gray-800">{t('Consumer No')}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center h-full">
                     <div className="space-y-4 w-full">
-                      <p className="text-center text-muted-foreground font-medium">{t('tap_to_enter')}</p>
+                      <p className="text-center text-muted-foreground font-medium">{t('Tap To Enter')}</p>
                       <div className="relative">
                         <Input
                           value={consumerNo}
@@ -132,7 +132,7 @@ export default function PayBillSearchPage() {
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-black text-gray-700 flex items-center gap-2">
                     <CheckCircle2 className="w-6 h-6 text-accent" />
-                    {t('your_bills')}
+                    {t('Your Bills')}
                   </h2>
                   <Button
                     size="sm"
@@ -141,7 +141,7 @@ export default function PayBillSearchPage() {
                     onClick={() => setBillViewMode(billViewMode === 'UNPAID' ? 'PAID' : 'UNPAID')}
                   >
                     {billViewMode === 'UNPAID' ? <History className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
-                    {billViewMode === 'UNPAID' ? t('paid_bills') : t('pending_bills')}
+                    {billViewMode === 'UNPAID' ? t('Paid Bills') : t('Pending Bills')}
                   </Button>
                 </div>
 

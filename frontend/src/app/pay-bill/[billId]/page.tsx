@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { apiService, BillData } from '@/lib/apiService';
 import { useToast } from '@/hooks/use-toast';
-import { CreditCard, Banknote, Smartphone, ReceiptText, ChevronLeft, Landmark, Building2, Globe, CheckCircle2 } from 'lucide-react';
+import { CreditCard, Banknote, Smartphone, ReceiptText, ChevronLeft, Landmark, Building2, Globe, CheckCircle2, QrCode, Loader2 } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation';
 import { logger } from '@/lib/logger';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -53,7 +53,7 @@ export default function BillDetailPage() {
   const { billId } = useParams();
 
   const [bill, setBill] = useState<BillData | null>(null);
-  const [view, setView] = useState<'MODE' | 'BANK'>('MODE');
+  const [view, setView] = useState<'MODE' | 'BANK' | 'QR'>('MODE');
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [selectedBank, setSelectedBank] = useState<string | null>(null);
@@ -70,6 +70,15 @@ export default function BillDetailPage() {
     }
   }, [billId, router, toast]);
 
+  useEffect(() => {
+    if (view === 'QR') {
+      const timer = setTimeout(() => {
+        handlePay('UPI');
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [view]);
+
   const handlePay = async (method: string) => {
     setSubmitting(true);
     logger.log(`Initiating payment for ${billId} via ${method}`, 'ACTIVITY', { amount: bill?.amount });
@@ -81,7 +90,7 @@ export default function BillDetailPage() {
   };
 
   const handleBack = () => {
-    if (view === 'BANK') setView('MODE');
+    if (view === 'BANK' || view === 'QR') setView('MODE');
     else router.back();
   };
 
@@ -160,7 +169,7 @@ export default function BillDetailPage() {
                     {t('bank_payment')}
                   </Button>
                   <Button
-                    onClick={() => handlePay('UPI')}
+                    onClick={() => setView('QR')}
                     className="flex-1 h-32 text-3xl font-black justify-start px-8 gap-8 shadow-sm rounded-[1.25rem] border border-gray-200 hover:border-purple-500/50 bg-white text-gray-800 transition-all active:scale-95 group"
                     variant="outline"
                   >
@@ -181,7 +190,7 @@ export default function BillDetailPage() {
                   </Button>
                 </div>
               </div>
-            ) : (
+            ) : view === 'BANK' ? (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
                 <div className="lg:col-span-2 flex flex-col h-full">
                   <h3 className="text-2xl font-black mb-6 flex items-center gap-2">
@@ -254,6 +263,24 @@ export default function BillDetailPage() {
                     Online Payment
                   </Button>
                 </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full space-y-12 animate-in slide-in-from-bottom-8 duration-500">
+                <div className="text-center space-y-4">
+                  <h3 className="text-4xl font-black text-gray-900">Scan QR to Pay via UPI</h3>
+                  <p className="text-xl font-bold text-gray-500 flex items-center justify-center gap-3">
+                    <Loader2 className="w-6 h-6 animate-spin text-[#0E6170]" />
+                    Waiting for payment confirmation...
+                  </p>
+                </div>
+                <div className="p-10 bg-white border-4 border-dashed border-[#0E6170]/30 rounded-[3rem] shadow-2xl relative overflow-hidden flex items-center justify-center group transform transition-all hover:scale-105">
+                  <div className="w-80 h-80 relative flex items-center justify-center">
+                    <QrCode className="w-full h-full text-gray-800" strokeWidth={1} />
+                  </div>
+                </div>
+                <p className="text-lg font-bold text-muted-foreground uppercase tracking-widest flex items-center gap-2">
+                  <Smartphone className="w-6 h-6" /> Open any UPI Apps to scan
+                </p>
               </div>
             )}
           </div>
