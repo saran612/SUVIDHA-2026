@@ -12,20 +12,6 @@ import { GlobalIdleSlideshow } from '@/components/kiosk/GlobalIdleSlideshow';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-function ScaleController() {
-  useEffect(() => {
-    const calc = () => {
-      const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-      const el = document.getElementById('app-scaler');
-      if (el) el.style.setProperty('--app-scale', scale.toString());
-    };
-    calc();
-    window.addEventListener('resize', calc);
-    return () => window.removeEventListener('resize', calc);
-  }, []);
-  return null;
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,16 +34,9 @@ export default function RootLayout({
         <LanguageProvider>
           <AuthProvider>
             <div
-              id="app-scaler"
-              style={{
-                width: '1920px',
-                height: '1080px',
-                transform: `scale(var(--app-scale, 1))`,
-                transformOrigin: 'center center'
-              }}
-              className="bg-white flex flex-col relative shrink-0 shadow-2xl print:transform-none print:w-auto print:h-auto"
+              id="app-wrapper"
+              className="bg-white flex flex-col relative w-full h-full shadow-2xl print:w-auto print:h-auto"
             >
-              <ScaleController />
               {!isAdminPage && <KioskHeader />}
 
               <div className="flex-1 w-full flex bg-white overflow-hidden print:overflow-visible">

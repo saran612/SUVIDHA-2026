@@ -264,7 +264,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col overflow-hidden w-full relative">
+    <div className="min-h-screen bg-gray-50 flex flex-col w-full relative">
       {/* Admin Navbar */}
       <header className="h-[108px] px-3 sm:px-6 bg-white/70 backdrop-blur-md border-b flex items-center justify-between shadow-sm sticky top-0 z-50 shrink-0">
         <div className="flex items-center gap-4">
@@ -296,8 +296,8 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col p-8 overflow-hidden min-h-0">
-        <div className="max-w-[1600px] mx-auto w-full flex flex-col gap-8 flex-1 overflow-hidden min-h-0">
+      <div className="flex-1 flex flex-col p-4 sm:p-8 w-full">
+        <div className="w-full flex flex-col gap-8 flex-1">
 
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -354,8 +354,8 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
-          <Tabs defaultValue="overview" className="flex flex-col flex-1 overflow-hidden min-h-0">
-            <TabsList className="w-fit bg-white border p-1 rounded-xl mb-6 shadow-sm shrink-0">
+          <Tabs defaultValue="overview" className="flex flex-col flex-1">
+            <TabsList className="w-fit bg-white border p-1 rounded-xl mb-6 shadow-sm">
               <TabsTrigger value="overview" className="data-[state=active]:bg-gray-100 font-bold px-6">Overview</TabsTrigger>
               <TabsTrigger value="usage" className="data-[state=active]:bg-gray-100 font-bold px-6">Usage</TabsTrigger>
               <TabsTrigger value="new_services" className="data-[state=active]:bg-gray-100 font-bold px-6">New Services</TabsTrigger>
@@ -363,11 +363,11 @@ export default function AdminDashboard() {
               <TabsTrigger value="logs" className="data-[state=active]:bg-gray-100 font-bold px-6">System Logs</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 min-h-0">
+            <TabsContent value="overview" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
               {/* Map and Devices Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-[600px]">
                 {/* Map View */}
-                <Card className="lg:col-span-2 border-none shadow-md overflow-hidden flex flex-col relative bg-gray-100">
+                <Card className="lg:col-span-2 border-none shadow-md overflow-hidden flex flex-col relative bg-gray-100 min-h-[400px]">
                   <CardHeader className="bg-white z-10">
                     <CardTitle className="text-lg font-bold flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-[#0E6170]" />
@@ -434,10 +434,10 @@ export default function AdminDashboard() {
               </div>
             </TabsContent>
 
-            <TabsContent value="usage" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 min-h-0">
+            <TabsContent value="usage" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
               {/* Usage Trends */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-0">
-                <Card className="border-none shadow-md overflow-hidden flex flex-col flex-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-[600px]">
+                <Card className="border-none shadow-md overflow-hidden flex flex-col flex-1 min-h-[400px]">
                   <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 gap-4">
                     <div>
                       <CardTitle className="text-lg font-bold flex items-center gap-2">
@@ -510,8 +510,8 @@ export default function AdminDashboard() {
               { id: 'new_services', title: 'New Service Applications', desc: 'Manage citizen submissions for new connections', filterFn: (r: any) => r.type === 'NEW_CONNECTION' },
               { id: 'complaints', title: 'Citizen Complaints', desc: 'Manage citizen grievances and complaints', filterFn: (r: any) => r.type !== 'NEW_CONNECTION' }
             ].map(tab => (
-              <TabsContent key={tab.id} value={tab.id} className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 min-h-0">
-                <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden">
+              <TabsContent key={tab.id} value={tab.id} className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
+                <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-[600px]">
                   <CardHeader className="flex flex-row items-center justify-between pb-4">
                     <div>
                       <CardTitle className="text-xl font-bold">{tab.title}</CardTitle>
@@ -588,8 +588,8 @@ export default function AdminDashboard() {
               </TabsContent>
             ))}
 
-            <TabsContent value="logs" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 min-h-0">
-              <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden">
+            <TabsContent value="logs" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
+              <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-[600px]">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold">System Activity Logs</CardTitle>
                   <CardDescription>Live telemetry from kiosk hardware and software sessions</CardDescription>

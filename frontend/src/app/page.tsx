@@ -13,7 +13,6 @@ import { Volume2, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { logger } from '@/lib/logger';
 import Loading from '@/app/loading';
-import { getIpLocation } from '@/app/lib/actions';
 import { VoiceInstruction } from '@/components/kiosk/VoiceInstruction';
 
 export default function LanguageSelection() {
@@ -25,19 +24,24 @@ export default function LanguageSelection() {
   const [region, setRegion] = useState({ district: 'New Delhi', state: 'Delhi' });
 
   useEffect(() => {
-    getIpLocation().then(res => {
-      if (res.success && res.district && res.state) {
-        const newRegion = {
-          district: res.district,
-          state: res.state
-        };
-        setRegion(newRegion);
-        sessionStorage.setItem('suvidha_detected_region', JSON.stringify(newRegion));
-        logger.log(`Location detected: ${newRegion.district}, ${newRegion.state}`, 'INFO');
-      } else {
-        logger.log(`Location detection using default: ${res.reason}`, 'WARN');
-      }
-    });
+    fetch('https://ipapi.co/json/')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.city && data.region) {
+          const newRegion = {
+            district: data.city,
+            state: data.region
+          };
+          setRegion(newRegion);
+          sessionStorage.setItem('suvidha_detected_region', JSON.stringify(newRegion));
+          logger.log(`Location detected: ${newRegion.district}, ${newRegion.state}`, 'INFO');
+        } else {
+          logger.log(`Location detection fell back to default`, 'WARN');
+        }
+      })
+      .catch(err => {
+        logger.log(`Location detection failed: ${err.message}`, 'WARN');
+      });
   }, []);
 
   const handleSelect = (id: string) => {
@@ -114,7 +118,7 @@ export default function LanguageSelection() {
         </div>
 
         <div className="flex-1 w-full overflow-y-auto overflow-x-hidden px-6 touch-pan-y pointer-events-auto overscroll-contain pb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto py-4" style={{ zoom: 0.9 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto py-4">
             {SUPPORTED_LANGUAGES.map((lang) => (
               <Card
                 key={lang.id}

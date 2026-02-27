@@ -109,7 +109,7 @@ export const KioskHeader = () => {
           </Button>
         </div>
 
-        {(isLanguagePage || !isAuthenticated) && (
+        {(!isLanguagePage && !isAuthenticated) && (
           <div className="hidden sm:flex items-center gap-3 bg-gray-50 p-2 px-5 rounded-full border border-gray-200">
             <MapPin className="w-5 h-5 text-[#0E6170]" />
             <div className="flex flex-col">
@@ -179,14 +179,16 @@ export const KioskHeader = () => {
           </>
         )}
 
-        <Button
-          variant="outline"
-          onClick={handleHelpClick}
-          className="rounded-full bg-white/80 border-gray-200 h-10 sm:h-12 px-3 sm:px-6 gap-2 sm:gap-3 shadow-sm hover:bg-white active:scale-95 transition-all"
-        >
-          <Headset className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E6170]" />
-          <span className="font-bold text-xs sm:text-sm">{t('assisted_help')}</span>
-        </Button>
+        {!isLanguagePage && (
+          <Button
+            variant="outline"
+            onClick={handleHelpClick}
+            className="rounded-full bg-white/80 border-gray-200 h-10 sm:h-12 px-3 sm:px-6 gap-2 sm:gap-3 shadow-sm hover:bg-white active:scale-95 transition-all"
+          >
+            <Headset className="w-4 h-4 sm:w-5 sm:h-5 text-[#0E6170]" />
+            <span className="font-bold text-xs sm:text-sm">{t('assisted_help')}</span>
+          </Button>
+        )}
 
         {isAuthenticated && (
           <Button
