@@ -57,6 +57,8 @@ import { useRouter } from 'next/navigation';
 import { formatINR } from '@/lib/utils';
 import Loading from '@/app/loading';
 
+import { NotificationSidebar } from '@/components/kiosk/NotificationSidebar';
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [stats, setStats] = useState<any>({
@@ -72,6 +74,7 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
@@ -123,33 +126,33 @@ export default function AdminDashboard() {
 
   const trendDataMaps = {
     day: [
-      { name: '12 AM', connections: 0, grievances: 0, payments: 1 },
-      { name: '4 AM', connections: 0, grievances: 0, payments: 0 },
-      { name: '8 AM', connections: 2, grievances: 1, payments: 8 },
-      { name: '12 PM', connections: 5, grievances: 3, payments: 15 },
-      { name: '4 PM', connections: 4, grievances: 2, payments: 12 },
-      { name: '8 PM', connections: 1, grievances: 0, payments: 4 },
+      { name: '12 AM', connections: 0, grievances: 0, usage: 1 },
+      { name: '4 AM', connections: 0, grievances: 0, usage: 0 },
+      { name: '8 AM', connections: 2, grievances: 1, usage: 8 },
+      { name: '12 PM', connections: 5, grievances: 3, usage: 15 },
+      { name: '4 PM', connections: 4, grievances: 2, usage: 12 },
+      { name: '8 PM', connections: 1, grievances: 0, usage: 4 },
     ],
     week: [
-      { name: 'Mon', connections: 4, grievances: 2, payments: 12 },
-      { name: 'Tue', connections: 3, grievances: 5, payments: 18 },
-      { name: 'Wed', connections: 7, grievances: 3, payments: 15 },
-      { name: 'Thu', connections: 5, grievances: 8, payments: 22 },
-      { name: 'Fri', connections: 8, grievances: 4, payments: 25 },
-      { name: 'Sat', connections: 12, grievances: 6, payments: 35 },
-      { name: 'Sun', connections: 10, grievances: 2, payments: 40 },
+      { name: 'Mon', connections: 4, grievances: 2, usage: 12 },
+      { name: 'Tue', connections: 3, grievances: 5, usage: 18 },
+      { name: 'Wed', connections: 7, grievances: 3, usage: 15 },
+      { name: 'Thu', connections: 5, grievances: 8, usage: 22 },
+      { name: 'Fri', connections: 8, grievances: 4, usage: 25 },
+      { name: 'Sat', connections: 12, grievances: 6, usage: 35 },
+      { name: 'Sun', connections: 10, grievances: 2, usage: 40 },
     ],
     month: [
-      { name: 'Week 1', connections: 25, grievances: 10, payments: 100 },
-      { name: 'Week 2', connections: 30, grievances: 15, payments: 120 },
-      { name: 'Week 3', connections: 35, grievances: 12, payments: 140 },
-      { name: 'Week 4', connections: 45, grievances: 18, payments: 180 },
+      { name: 'Week 1', connections: 25, grievances: 10, usage: 100 },
+      { name: 'Week 2', connections: 30, grievances: 15, usage: 120 },
+      { name: 'Week 3', connections: 35, grievances: 12, usage: 140 },
+      { name: 'Week 4', connections: 45, grievances: 18, usage: 180 },
     ],
     year: [
-      { name: 'Q1', connections: 120, grievances: 45, payments: 400 },
-      { name: 'Q2', connections: 150, grievances: 50, payments: 500 },
-      { name: 'Q3', connections: 200, grievances: 60, payments: 700 },
-      { name: 'Q4', connections: 230, grievances: 80, payments: 850 },
+      { name: 'Q1', connections: 120, grievances: 45, usage: 400 },
+      { name: 'Q2', connections: 150, grievances: 50, usage: 500 },
+      { name: 'Q3', connections: 200, grievances: 60, usage: 700 },
+      { name: 'Q4', connections: 230, grievances: 80, usage: 850 },
     ]
   };
 
@@ -278,7 +281,7 @@ export default function AdminDashboard() {
             <Activity className="w-3 h-3 text-emerald-500" />
             SYSTEM ONLINE
           </div>
-          <Button variant="ghost" size="icon" className="relative">
+          <Button variant="ghost" size="icon" className="relative" onClick={() => setIsNotificationsOpen(true)}>
             <Bell className="w-5 h-5" />
             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
           </Button>
@@ -464,7 +467,7 @@ export default function AdminDashboard() {
                         <Tooltip
                           contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                         />
-                        <Bar dataKey="payments" fill="#0E6170" radius={[4, 4, 0, 0]} name="Payments" />
+                        <Bar dataKey="usage" fill="#0E6170" radius={[4, 4, 0, 0]} name="Usage" />
                         <Bar dataKey="connections" fill="#0ea5e9" radius={[4, 4, 0, 0]} name="New Con." />
                         <Bar dataKey="grievances" fill="#f43f5e" radius={[4, 4, 0, 0]} name="Grievances" />
                       </BarChart>
@@ -621,6 +624,7 @@ export default function AdminDashboard() {
 
         </div>
       </div>
+      <NotificationSidebar open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen} isAdmin={true} />
     </div >
   );
 }

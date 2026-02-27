@@ -25,11 +25,13 @@ interface Notification {
 interface NotificationSidebarProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  isAdmin?: boolean;
 }
 
-export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarProps) => {
+export const NotificationSidebar = ({ open, onOpenChange, isAdmin }: NotificationSidebarProps) => {
   const router = useRouter();
-  const [notifications, setNotifications] = useState<Notification[]>([
+
+  const initialUserAlerts: Notification[] = [
     {
       id: '1',
       title: 'Electricity Bill Due',
@@ -54,7 +56,36 @@ export const NotificationSidebar = ({ open, onOpenChange }: NotificationSidebarP
       path: '/dashboard',
       timestamp: '1 day ago'
     }
-  ]);
+  ];
+
+  const initialAdminAlerts: Notification[] = [
+    {
+      id: 'a1',
+      title: 'Kiosk Offline Warning',
+      message: 'Kiosk K-004 in Municipal Office is unresponsive.',
+      type: 'status',
+      path: '/admindashboard',
+      timestamp: '10 mins ago'
+    },
+    {
+      id: 'a2',
+      title: 'High Complaint Volume',
+      message: 'Unusual spike in water grievances in Zone 3.',
+      type: 'info',
+      path: '/admindashboard',
+      timestamp: '1 hour ago'
+    },
+    {
+      id: 'a3',
+      title: 'System Update Required',
+      message: 'Core services require a security patch.',
+      type: 'status',
+      path: '/admindashboard',
+      timestamp: '2 hours ago'
+    }
+  ];
+
+  const [notifications, setNotifications] = useState<Notification[]>(isAdmin ? initialAdminAlerts : initialUserAlerts);
 
   const dismissNotification = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
