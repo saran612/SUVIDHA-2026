@@ -73,8 +73,8 @@ export default function Dashboard() {
   return (
     <div className="h-full w-full flex flex-col bg-[#F8FAFB]">
       <VoiceInstruction text="Welcome to your dashboard. You can pay bills, apply for new utility connections, or track your submitted requests by tapping the cards on the screen." />
-      <main className="flex-1 p-4 sm:p-8 flex flex-col justify-center relative">
-        <div className="max-w-6xl mx-auto w-full" style={{ zoom: 0.9 }}>
+      <main className="flex-1 p-8 sm:p-16 lg:p-24 flex flex-col justify-center relative min-h-[800px]">
+        <div className="max-w-6xl mx-auto w-full">
           <h1 className="text-3xl sm:text-4xl font-black mb-6 sm:mb-8 text-center text-gray-900">{t('welcome')}</h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">

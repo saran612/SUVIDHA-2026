@@ -91,8 +91,8 @@ export const FullKeyboard = ({ onKeyPress, onDelete, onClose, value, placeholder
                   className={cn(
                     "h-16 sm:h-20 text-2xl font-bold rounded-xl transition-all active:scale-95 shadow-md",
                     key === 'SPACE' ? "flex-[4]" : "flex-1",
-                    key === 'DONE' ? "bg-[#0E6170] hover:bg-[#0E6170]/90 text-white flex-[1.5]" :
-                      key === 'CLOSE' ? "bg-red-50 hover:bg-red-100 text-red-600 border-2 border-red-100" :
+                    key === 'DONE' ? "bg-emerald-600 hover:bg-emerald-700 text-white flex-[1.5]" :
+                      key === 'CLOSE' ? "bg-red-500 hover:bg-red-600 text-white border-none" :
                         isSpecial ? "bg-gray-100 text-gray-700 hover:bg-gray-200" : "bg-white text-gray-900 border-2 border-gray-50 hover:border-[#0E6170]/30 hover:bg-gray-50",
                     isDisabled && "opacity-50 grayscale"
                   )}

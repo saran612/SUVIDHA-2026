@@ -77,31 +77,29 @@ export default function PayBillSearchPage() {
   return (
     <div className="h-full w-full flex flex-col bg-background">
       <main className="flex-1 p-6 sm:p-12 flex flex-col">
-        <div className="max-w-7xl mx-auto w-full min-h-full flex flex-col">
-          <div className="flex items-center mb-8 shrink-0">
-            <div className="flex items-center gap-6">
-              <Button
-                className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
-                onClick={() => router.push('/dashboard')}
-              >
-                <ChevronLeft className="w-10 h-10" />
-              </Button>
-              <h1 className="text-3xl sm:text-5xl font-black text-gray-900">{t('Pay Bill')}</h1>
-            </div>
-          </div>
+        <div className="w-full max-w-[1600px] mx-auto h-full flex flex-col">
 
-          <div className="flex-1 min-0">
+
+          <div className="flex-1 min-h-0">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full">
-              <div className="flex flex-col h-full">
-                <h2 className="text-2xl font-black text-gray-700 mb-6 flex items-center gap-2">
-                  <ReceiptText className="w-6 h-6 text-[#0E6170]" />
-                  {t('Manual Search')}
-                </h2>
-                <Card className="shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white flex-1">
+              <div className="flex flex-col h-full min-h-0">
+                <div className="flex items-center gap-4 mb-6">
+                  <Button
+                    className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
+                    onClick={() => router.push('/dashboard')}
+                  >
+                    <ChevronLeft className="w-10 h-10" />
+                  </Button>
+                  <h1 className="text-3xl sm:text-4xl font-black text-gray-900 flex items-center gap-3">
+                    <ReceiptText className="w-8 h-8 text-[#0E6170]" />
+                    {t('Pay Bill')}
+                  </h1>
+                </div>
+                <Card className="shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white flex-1 min-h-0">
                   <CardHeader className="py-8 text-center border-b bg-gray-50/50">
                     <CardTitle className="text-2xl font-black text-gray-800">{t('Consumer No')}</CardTitle>
                   </CardHeader>
-                  <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center h-full">
+                  <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center flex-1 overflow-y-auto">
                     <div className="space-y-4 w-full">
                       <p className="text-center text-muted-foreground font-medium">{t('Tap To Enter')}</p>
                       <div className="relative">
@@ -128,7 +126,7 @@ export default function PayBillSearchPage() {
                 </Card>
               </div>
 
-              <div className="flex flex-col h-full mt-8 lg:mt-0">
+              <div className="flex flex-col h-full mt-8 lg:mt-0 min-h-0">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-black text-gray-700 flex items-center gap-2">
                     <CheckCircle2 className="w-6 h-6 text-accent" />

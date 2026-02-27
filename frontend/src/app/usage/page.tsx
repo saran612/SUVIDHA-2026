@@ -81,7 +81,7 @@ export default function UsagePage() {
                     <div className="max-w-5xl mx-auto">
                         <div className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-10">
                             <Button
-                                className="rounded-full h-12 w-12 sm:h-14 sm:w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
+                                className="rounded-full h-12 w-12 sm:h-14 sm:w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
                                 onClick={() => router.push('/dashboard')}
                             >
                                 <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10" />

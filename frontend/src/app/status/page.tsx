@@ -89,29 +89,29 @@ export default function StatusPage() {
   return (
     <div className="h-full flex flex-col bg-background">
       <main className="flex-1 p-6 sm:p-12 flex flex-col min-h-0">
-        <div className="max-w-7xl mx-auto w-full flex flex-col h-full">
-          <div className="flex items-center gap-6 mb-8 shrink-0">
-            <Button
-              className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
-              onClick={() => router.push('/dashboard')}
-            >
-              <ChevronLeft className="w-10 h-10" />
-            </Button>
-            <h1 className="text-3xl sm:text-5xl font-black text-gray-900">{t('track_status')}</h1>
-          </div>
+        <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full">
+
 
           <div className="flex-1 min-h-0">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full">
               {/* Left Column: Search & Result */}
-              <div className="flex flex-col h-full">
-                <h2 className="text-2xl font-black text-gray-700 mb-6 flex items-center gap-2">
-                  <Search className="w-6 h-6 text-[#0E6170]" />
-                  {t('tracking_id')}
-                </h2>
+              <div className="flex flex-col h-full min-h-0">
+                <div className="flex items-center gap-4 mb-6">
+                  <Button
+                    className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
+                    onClick={() => router.push('/dashboard')}
+                  >
+                    <ChevronLeft className="w-10 h-10" />
+                  </Button>
+                  <h1 className="text-3xl sm:text-4xl font-black text-gray-900 flex items-center gap-3">
+                    <Search className="w-8 h-8 text-[#0E6170]" />
+                    {t('track_status')}
+                  </h1>
+                </div>
 
                 {!data ? (
-                  <Card className="shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white flex-1">
-                    <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center h-full">
+                  <Card className="shadow-2xl border border-gray-200 rounded-[1.25rem] overflow-hidden flex flex-col bg-white flex-1 min-h-0">
+                    <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center flex-1 overflow-y-auto">
                       <div className="space-y-4 w-full">
                         <p className="text-center text-muted-foreground font-medium">Enter your application or grievance reference number</p>
                         <Input
@@ -133,8 +133,8 @@ export default function StatusPage() {
                     </CardContent>
                   </Card>
                 ) : (
-                  <Card className="shadow-xl border border-gray-100 rounded-[1.5rem] overflow-hidden flex flex-col bg-white flex-1 relative">
-                    <CardContent className="p-6 sm:p-8 space-y-6 flex-1 flex flex-col overflow-hidden">
+                  <Card className="shadow-xl border border-gray-100 rounded-[1.5rem] overflow-hidden flex flex-col bg-white flex-1 relative min-h-0">
+                    <CardContent className="p-6 sm:p-8 space-y-6 flex-1 flex flex-col overflow-y-auto">
                       {/* Header from design */}
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-100 pb-6">
                         <div>
@@ -280,7 +280,7 @@ export default function StatusPage() {
               </div>
 
               {/* Right Column: Trackables List */}
-              <div className="flex flex-col h-full mt-8 lg:mt-0">
+              <div className="flex flex-col h-full mt-8 lg:mt-0 min-h-0">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-2xl font-black text-gray-700 flex items-center gap-2">
                     <History className="w-6 h-6 text-accent" />

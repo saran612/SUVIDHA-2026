@@ -176,7 +176,7 @@ export default function NewConnectionPage() {
               <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-[1200px] mx-auto w-full pt-4">
                 <div className="text-center relative">
                   <Button
-                    className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full h-14 w-14 p-0 bg-white border-2 border-gray-200 text-gray-500 shadow-sm hover:bg-gray-50 hidden md:flex items-center justify-center transition-all active:scale-95"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg hidden md:flex items-center justify-center transition-all active:scale-95"
                     onClick={handleBack}
                   >
                     <ChevronLeft className="w-8 h-8" />
@@ -236,7 +236,7 @@ export default function NewConnectionPage() {
             {step !== 'SERVICE' && (
               <div className="flex items-center gap-6 mb-10 shrink-0">
                 <Button
-                  className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0 transition-transform active:scale-95"
+                  className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 transition-transform active:scale-95 flex items-center justify-center"
                   onClick={handleBack}
                 >
                   <ChevronLeft className="w-10 h-10" />

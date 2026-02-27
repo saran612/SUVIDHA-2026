@@ -32,7 +32,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body select-none touch-none;
+    @apply bg-background text-foreground font-body select-none overflow-y-auto;
   }
   button {
     @apply cursor-pointer active:scale-95 transition-transform;

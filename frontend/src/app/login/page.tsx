@@ -122,7 +122,7 @@ export default function LoginPage() {
       <main className="flex-1 w-full flex flex-col justify-center items-center p-4 sm:p-8 pb-32 relative">
         <div className="flex flex-col lg:flex-row w-full max-w-6xl items-center lg:items-start gap-4 lg:gap-8 pt-14 lg:pt-0 relative">
           <Button
-            className="absolute -top-2 left-0 lg:static rounded-full h-12 w-12 sm:h-14 sm:w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0 lg:mt-4 z-10"
+            className="rounded-full h-12 w-12 sm:h-14 sm:w-14 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg p-0 flex items-center justify-center shrink-0 transition-transform active:scale-95"
             onClick={handleBack}
           >
             <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10" />

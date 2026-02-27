@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAuth } from '@/context/AuthContext';
-import { SUPPORTED_LANGUAGES } from '@/lib/languages';
+import { SUPPORTED_LANGUAGES, getTranslation } from '@/lib/languages';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -174,7 +174,7 @@ export default function LanguageSelection() {
           disabled={!selectedId}
           className="w-full sm:w-auto h-[75px] min-h-[48px] max-h-[64px] px-8 sm:px-12 rounded-2xl bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-xl flex gap-3 sm:gap-4 text-xl sm:text-2xl font-bold transition-all active:scale-95"
         >
-          <span>Start | शुरू करें</span>
+          <span>Start / {selectedId ? getTranslation(selectedId, 'start') : 'शुरू करें'}</span>
           <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" />
         </Button>
       </footer>

@@ -66,12 +66,6 @@ export const KioskHeader = () => {
     <header className="h-[108px] px-3 sm:px-6 flex justify-between items-center bg-white/70 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b shrink-0">
       <div className="flex items-center gap-2 sm:gap-6">
         <div className="flex items-center gap-2 sm:gap-3">
-          <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-[#0E6170]/10 flex items-center justify-center">
-            <svg width="20" height="20" className="sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="#0E6170" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 21h18" />
-              <rect width="16" height="12" x="4" y="3" rx="2" />
-            </svg>
-          </div>
           <div onClick={() => !isAuthenticated && router.push('/')} className={`${!isAuthenticated ? 'cursor-pointer' : ''}`}>
             <h1 className="text-base sm:text-xl font-bold text-[#0E6170] leading-none tracking-tight">SUVIDHA</h1>
             <p className="hidden sm:block text-[10px] text-[#0E6170]/70 font-semibold tracking-widest uppercase mt-1">{t('citizen_services')}</p>

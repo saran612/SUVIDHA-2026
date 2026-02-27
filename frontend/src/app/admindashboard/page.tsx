@@ -46,7 +46,8 @@ import {
   BarChart3,
   Lock,
   User,
-  LogOut
+  LogOut,
+  MonitorOff
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -56,7 +57,7 @@ import { logger } from '@/lib/logger';
 import { useRouter } from 'next/navigation';
 import { formatINR } from '@/lib/utils';
 import Loading from '@/app/loading';
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { NotificationSidebar } from '@/components/kiosk/NotificationSidebar';
 
 export default function AdminDashboard() {
@@ -75,6 +76,20 @@ export default function AdminDashboard() {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+  const [isManaging, setIsManaging] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState('PENDING');
+  const [updateMessage, setUpdateMessage] = useState('');
+
+  const exitKioskMode = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(console.error);
+      logger.log('Kiosk Mode (Fullscreen) killed by admin', 'INFO');
+    } else {
+      document.documentElement.requestFullscreen().catch(console.error);
+      logger.log('Kiosk Mode (Fullscreen) enabled by admin', 'INFO');
+    }
+  };
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
@@ -99,6 +114,24 @@ export default function AdminDashboard() {
     setIsAuthenticated(false);
     setLoginId('');
     setPassword('');
+  };
+
+  const handleUpdateCase = async () => {
+    if (!selectedRequest) return;
+    try {
+      await apiService.admin.updateRequest(selectedRequest.id, {
+        status: updateStatus,
+        message: updateMessage || `Status updated to ${updateStatus.replace(/_/g, ' ')}`
+      });
+      const newReqs = await apiService.admin.getAllRequests();
+      setRequests(newReqs);
+
+      setSelectedRequest({ ...selectedRequest, status: updateStatus });
+      setIsManaging(false);
+      setUpdateMessage('');
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -264,7 +297,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col w-full relative">
+    <div className="h-screen bg-gray-50 flex flex-col w-full relative overflow-hidden">
       {/* Admin Navbar */}
       <header className="h-[108px] px-3 sm:px-6 bg-white/70 backdrop-blur-md border-b flex items-center justify-between shadow-sm sticky top-0 z-50 shrink-0">
         <div className="flex items-center gap-4">
@@ -286,6 +319,15 @@ export default function AdminDashboard() {
             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
           </Button>
           <div className="flex items-center gap-3 border-l pl-6 border-gray-200">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={exitKioskMode}
+              className="rounded-full border-red-100 text-red-500 hover:bg-red-50 hover:text-red-600 bg-white/50 h-10 px-4 gap-2 font-bold transition-all opacity-40 hover:opacity-100 hidden md:flex"
+            >
+              <MonitorOff className="w-4 h-4" />
+              <span>Kill Kiosk</span>
+            </Button>
             <div className="w-10 h-10 rounded-full bg-[#0E6170] flex items-center justify-center text-white font-bold shadow-sm">
               AD
             </div>
@@ -296,8 +338,8 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col p-4 sm:p-8 w-full">
-        <div className="w-full flex flex-col gap-8 flex-1">
+      <div className="flex-1 flex flex-col p-4 sm:p-6 w-full overflow-hidden">
+        <div className="w-full flex flex-col gap-4 sm:gap-6 flex-1 overflow-hidden">
 
           {/* Summary Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -354,20 +396,20 @@ export default function AdminDashboard() {
             </Card>
           </div>
 
-          <Tabs defaultValue="overview" className="flex flex-col flex-1">
-            <TabsList className="w-fit bg-white border p-1 rounded-xl mb-6 shadow-sm">
-              <TabsTrigger value="overview" className="data-[state=active]:bg-gray-100 font-bold px-6">Overview</TabsTrigger>
-              <TabsTrigger value="usage" className="data-[state=active]:bg-gray-100 font-bold px-6">Usage</TabsTrigger>
-              <TabsTrigger value="new_services" className="data-[state=active]:bg-gray-100 font-bold px-6">New Services</TabsTrigger>
-              <TabsTrigger value="complaints" className="data-[state=active]:bg-gray-100 font-bold px-6">Complaints</TabsTrigger>
-              <TabsTrigger value="logs" className="data-[state=active]:bg-gray-100 font-bold px-6">System Logs</TabsTrigger>
+          <Tabs defaultValue="overview" className="flex flex-col flex-1 overflow-hidden">
+            <TabsList className="w-full xl:w-fit bg-white border p-1 rounded-xl mb-6 shadow-sm flex flex-wrap h-auto justify-start">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-gray-100 font-bold px-4 sm:px-6">Overview</TabsTrigger>
+              <TabsTrigger value="usage" className="data-[state=active]:bg-gray-100 font-bold px-4 sm:px-6">Usage</TabsTrigger>
+              <TabsTrigger value="new_services" className="data-[state=active]:bg-gray-100 font-bold px-4 sm:px-6">New Services</TabsTrigger>
+              <TabsTrigger value="complaints" className="data-[state=active]:bg-gray-100 font-bold px-4 sm:px-6">Complaints</TabsTrigger>
+              <TabsTrigger value="logs" className="data-[state=active]:bg-gray-100 font-bold px-4 sm:px-6">System Logs</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
+            <TabsContent value="overview" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 overflow-hidden">
               {/* Map and Devices Grid */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-[600px]">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
                 {/* Map View */}
-                <Card className="lg:col-span-2 border-none shadow-md overflow-hidden flex flex-col relative bg-gray-100 min-h-[400px]">
+                <Card className="lg:col-span-2 border-none shadow-md overflow-hidden flex flex-col relative bg-gray-100 min-h-0">
                   <CardHeader className="bg-white z-10">
                     <CardTitle className="text-lg font-bold flex items-center gap-2">
                       <MapPin className="w-5 h-5 text-[#0E6170]" />
@@ -375,7 +417,7 @@ export default function AdminDashboard() {
                     </CardTitle>
                     <CardDescription>Real-time location and status of all Kiosks</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex-1 p-0 relative min-h-[400px]">
+                  <CardContent className="flex-1 p-0 relative min-h-0">
                     <KioskMap />
                   </CardContent>
                 </Card>
@@ -434,10 +476,10 @@ export default function AdminDashboard() {
               </div>
             </TabsContent>
 
-            <TabsContent value="usage" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
+            <TabsContent value="usage" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 overflow-hidden">
               {/* Usage Trends */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-[600px]">
-                <Card className="border-none shadow-md overflow-hidden flex flex-col flex-1 min-h-[400px]">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1 min-h-0">
+                <Card className="border-none shadow-md overflow-hidden flex flex-col flex-1 min-h-0">
                   <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 gap-4">
                     <div>
                       <CardTitle className="text-lg font-bold flex items-center gap-2">
@@ -510,8 +552,8 @@ export default function AdminDashboard() {
               { id: 'new_services', title: 'New Service Applications', desc: 'Manage citizen submissions for new connections', filterFn: (r: any) => r.type === 'NEW_CONNECTION' },
               { id: 'complaints', title: 'Citizen Complaints', desc: 'Manage citizen grievances and complaints', filterFn: (r: any) => r.type !== 'NEW_CONNECTION' }
             ].map(tab => (
-              <TabsContent key={tab.id} value={tab.id} className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
-                <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-[600px]">
+              <TabsContent key={tab.id} value={tab.id} className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 overflow-hidden">
+                <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-0">
                   <CardHeader className="flex flex-row items-center justify-between pb-4">
                     <div>
                       <CardTitle className="text-xl font-bold">{tab.title}</CardTitle>
@@ -567,7 +609,7 @@ export default function AdminDashboard() {
                               </div>
                             </TableCell>
                             <TableCell className="text-right">
-                              <Button variant="ghost" size="sm" className="font-bold text-[#0E6170]">View Details</Button>
+                              <Button variant="ghost" size="sm" className="font-bold text-[#0E6170]" onClick={() => setSelectedRequest(req)}>View Details</Button>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -588,8 +630,8 @@ export default function AdminDashboard() {
               </TabsContent>
             ))}
 
-            <TabsContent value="logs" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6">
-              <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-[600px]">
+            <TabsContent value="logs" className="flex-1 mt-0 data-[state=inactive]:hidden data-[state=active]:flex flex-col gap-6 overflow-hidden">
+              <Card className="flex-1 border-none shadow-md flex flex-col overflow-hidden min-h-0">
                 <CardHeader>
                   <CardTitle className="text-xl font-bold">System Activity Logs</CardTitle>
                   <CardDescription>Live telemetry from kiosk hardware and software sessions</CardDescription>
@@ -625,6 +667,123 @@ export default function AdminDashboard() {
         </div>
       </div>
       <NotificationSidebar open={isNotificationsOpen} onOpenChange={setIsNotificationsOpen} isAdmin={true} />
+
+      <Dialog open={!!selectedRequest} onOpenChange={(open) => {
+        if (!open) {
+          setSelectedRequest(null);
+          setIsManaging(false);
+          setUpdateMessage('');
+        }
+      }}>
+        <DialogContent className="sm:max-w-2xl rounded-3xl p-0 overflow-hidden bg-white shadow-2xl border-0">
+          <div className="bg-[#0E6170] p-6 text-white pb-8">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-black flex justify-between items-center text-white">
+                Request Details
+                <Badge className="bg-white text-[#0E6170] font-black pointer-events-none hover:bg-gray-100 shadow-sm px-4">
+                  {selectedRequest?.id}
+                </Badge>
+              </DialogTitle>
+              <DialogDescription className="text-emerald-100 font-medium">
+                Complete overview of the isolated citizen request.
+              </DialogDescription>
+            </DialogHeader>
+          </div>
+
+          <div className="p-8 -mt-6 bg-white rounded-t-3xl grid grid-cols-2 gap-y-8 gap-x-12 relative z-10">
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Service Type</p>
+              <p className="text-lg font-bold text-gray-900">{selectedRequest?.type === 'NEW_CONNECTION' ? 'New Connection' : 'Grievance'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Status</p>
+              <Badge variant="outline" className={`font-black tracking-wide border-2 px-3 py-1 ${selectedRequest?.status === 'RESOLVED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                selectedRequest?.status === 'PENDING' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                  'bg-blue-50 text-blue-600 border-blue-100'
+                }`}>
+                {selectedRequest?.status?.replace(/_/g, ' ') || 'PROCESSING'}
+              </Badge>
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Applicant Name</p>
+              <p className="text-lg font-bold text-gray-900">{selectedRequest?.name && selectedRequest?.name !== selectedRequest?.category ? selectedRequest.name : 'Vikas Reddy'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Address / Location</p>
+              <p className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-[#0E6170]" />
+                {selectedRequest?.address || '12-A, Market Road, Model Town'}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Category</p>
+              <p className="text-lg font-bold text-gray-900">{selectedRequest?.category || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Registered Service</p>
+              <p className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-[#0E6170]" />
+                {selectedRequest?.service || 'N/A'}
+              </p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Time of Submission</p>
+              <p className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-gray-400" />
+                {selectedRequest?.timestamp ? new Date(selectedRequest.timestamp).toLocaleString(undefined, {
+                  dateStyle: 'full',
+                  timeStyle: 'medium'
+                }) : 'N/A'}
+              </p>
+            </div>
+          </div>
+
+          {isManaging && (
+            <div className="bg-white p-8 pt-0 border-t border-gray-50 flex flex-col gap-4 relative z-10">
+              <h4 className="font-black text-gray-900 text-lg">Update Case Status</h4>
+              <div className="flex gap-4">
+                <select
+                  value={updateStatus}
+                  onChange={(e) => setUpdateStatus(e.target.value)}
+                  className="h-12 rounded-xl border-2 border-gray-100 px-4 w-48 font-bold bg-gray-50 focus:border-[#0E6170] focus:ring-0 outline-none transition-colors"
+                >
+                  <option value="SUBMITTED">SUBMITTED</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="IN_PROGRESS">IN PROGRESS</option>
+                  <option value="RESOLVED">RESOLVED</option>
+                  <option value="REJECTED">REJECTED</option>
+                </select>
+                <Input
+                  value={updateMessage}
+                  onChange={(e) => setUpdateMessage(e.target.value)}
+                  placeholder="E.g., Officer dispatched to location..."
+                  className="flex-1 rounded-xl h-12 border-2 border-gray-100 font-medium bg-gray-50 px-4 focus-visible:ring-0 focus-visible:border-[#0E6170] transition-colors"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="p-6 bg-gray-50 border-t border-gray-100 flex justify-end gap-3 rounded-b-3xl">
+            <Button variant="outline" className="font-bold border-2 rounded-xl h-12 px-6 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:border-red-300" onClick={() => {
+              setSelectedRequest(null);
+              setIsManaging(false);
+              setUpdateMessage('');
+            }}>Close</Button>
+            {isManaging ? (
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl h-12 px-8 shadow-md" onClick={handleUpdateCase}>
+                Save Updates
+              </Button>
+            ) : (
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl h-12 px-8 shadow-md" onClick={() => {
+                setIsManaging(true);
+                setUpdateStatus(selectedRequest?.status || 'PENDING');
+              }}>
+                Manage Case
+              </Button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div >
   );
 }

@@ -18,18 +18,12 @@ export default function Loading() {
         {/* Simplified Brand Pulse */}
         <div className="relative mb-12">
           <div className="absolute inset-0 bg-[#0E6170]/10 rounded-full animate-pulse scale-150" />
-          <div className="w-24 h-24 rounded-full bg-[#0E6170] flex items-center justify-center shadow-xl relative z-10">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 21h18" />
-              <rect width="16" height="12" x="4" y="3" rx="2" />
-            </svg>
-          </div>
         </div>
 
         <h2 className="text-3xl font-black text-gray-900 tracking-tighter mb-4">
           SUVIDHA Kiosk
         </h2>
-        
+
         <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-6">
           <div className="h-full bg-[#0E6170] animate-shimmer w-1/2" />
         </div>

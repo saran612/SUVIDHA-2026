@@ -408,25 +408,82 @@ export const apiService = {
 
     getAllRequests: async () => {
       if (USE_MOCK) {
+        let stored: any[] = [];
         if (typeof window !== 'undefined') {
-          const stored = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
-          return stored.map((r: any) => {
-            // "25 Feb 2026" can usually be passed into Date directly, but we provide it as timestamp fallback safely.
-            const parsedDate = new Date(r.date);
-            return {
-              id: r.id,
-              type: r.type === 'New Connection' ? 'NEW_CONNECTION' : 'GRIEVANCE',
-              name: r.category,
-              category: r.category,
-              service: r.type,
-              timestamp: isNaN(parsedDate.getTime()) ? new Date().toISOString() : parsedDate.toISOString(),
-              status: r.status
-            };
-          });
+          stored = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
         }
-        return [];
+
+        // The default fallback data shown on the /status page that we want to mirror
+        const defaultRequests = [
+          { id: 'NC-982341', type: 'NEW_CONNECTION', name: 'Electricity', category: 'Electricity', service: 'New Connection', status: 'IN_PROGRESS', timestamp: new Date('2026-02-25').toISOString() },
+          { id: 'GRV-409123', type: 'GRIEVANCE', name: 'Water leakage', category: 'Water leakage', service: 'Complaint', status: 'RESOLVED', timestamp: new Date('2026-02-22').toISOString() },
+          { id: 'SRV-551230', type: 'NEW_CONNECTION', name: 'Meter Testing', category: 'Meter Testing', service: 'Service Request', status: 'PENDING', timestamp: new Date('2026-02-15').toISOString() },
+        ];
+
+        const mappedStored = stored.map((r: any) => {
+          const parsedDate = new Date(r.date);
+          return {
+            id: r.id,
+            type: r.type === 'New Connection' || r.type === 'Service Request' ? 'NEW_CONNECTION' : 'GRIEVANCE',
+            name: r.category,
+            category: r.category,
+            service: r.type,
+            timestamp: isNaN(parsedDate.getTime()) ? new Date().toISOString() : parsedDate.toISOString(),
+            status: r.status
+          };
+        });
+
+        return [...mappedStored, ...defaultRequests];
       }
       return [];
+    },
+
+    updateRequest: async (id: string, updateData: { status: string; message: string }) => {
+      if (USE_MOCK) {
+        if (typeof window !== 'undefined') {
+          const stored = JSON.parse(localStorage.getItem('suvidha_requests') || '[]');
+          const requestIndex = stored.findIndex((r: any) => r.id === id);
+
+          if (requestIndex !== -1) {
+            stored[requestIndex].status = updateData.status;
+
+            const newUpdate = {
+              date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+              message: updateData.message,
+            };
+
+            if (!stored[requestIndex].updates) {
+              stored[requestIndex].updates = [];
+            }
+            // prepend to updates
+            stored[requestIndex].updates.unshift(newUpdate);
+
+            localStorage.setItem('suvidha_requests', JSON.stringify(stored));
+            return { success: true };
+          } else {
+            // It's a default request, save it to localstorage so it overrides default
+            const fallbackRequests = [
+              { id: 'NC-982341', type: 'NEW_CONNECTION', name: 'Electricity', category: 'Electricity', service: 'New Connection', status: 'IN_PROGRESS', date: new Date('2026-02-25').toISOString(), updates: [] as any[] },
+              { id: 'GRV-409123', type: 'GRIEVANCE', name: 'Water leakage', category: 'Water leakage', service: 'Complaint', status: 'RESOLVED', date: new Date('2026-02-22').toISOString(), updates: [] as any[] },
+              { id: 'SRV-551230', type: 'NEW_CONNECTION', name: 'Meter Testing', category: 'Meter Testing', service: 'Service Request', status: 'PENDING', date: new Date('2026-02-15').toISOString(), updates: [] as any[] },
+            ];
+
+            const f = fallbackRequests.find(r => r.id === id);
+            if (f) {
+              f.status = updateData.status;
+              f.updates.unshift({
+                date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+                message: updateData.message,
+              });
+              stored.push(f);
+              localStorage.setItem('suvidha_requests', JSON.stringify(stored));
+              return { success: true };
+            }
+          }
+        }
+        return { success: false, message: 'Could not find request' };
+      }
+      return { success: false };
     }
   }
 };

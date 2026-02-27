@@ -34,7 +34,7 @@ export default function PaymentSuccessPage() {
     <div className="min-h-full w-full flex flex-col bg-background p-4 sm:p-12 items-center justify-center py-10 relative">
       <div className="absolute top-8 left-8 sm:top-12 sm:left-12 print:hidden z-10">
         <Button
-          className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
+          className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
           onClick={() => router.push('/pay-bill')}
         >
           <ChevronLeft className="w-10 h-10" />

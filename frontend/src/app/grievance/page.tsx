@@ -42,7 +42,7 @@ export default function GrievancePage() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-6 mb-10">
             <Button
-              className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
+              className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
               onClick={() => router.push('/dashboard')}
             >
               <ChevronLeft className="w-10 h-10" />

@@ -25,7 +25,7 @@ export const IdleSlideshow = ({ onDismiss }: IdleSlideshowProps) => {
   }, [images.length]);
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-[100] bg-black cursor-pointer overflow-hidden"
       onClick={onDismiss}
       onTouchStart={onDismiss}
@@ -51,17 +51,11 @@ export const IdleSlideshow = ({ onDismiss }: IdleSlideshowProps) => {
       ))}
 
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center p-10 pointer-events-none">
-        <div className="mb-8 animate-pulse">
-          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="opacity-80">
-            <path d="M3 21h18" />
-            <rect width="16" height="12" x="4" y="3" rx="2" />
-          </svg>
-        </div>
-        
+
         <h2 className="text-6xl sm:text-8xl font-black mb-6 tracking-tighter drop-shadow-2xl">
           SUVIDHA
         </h2>
-        
+
         <div className="bg-[#0E6170]/80 backdrop-blur-md px-10 py-6 rounded-3xl border-2 border-white/20 shadow-2xl animate-bounce mt-10">
           <p className="text-3xl sm:text-4xl font-bold uppercase tracking-[0.2em]">
             {t('touch_to_start')}
@@ -76,12 +70,12 @@ export const IdleSlideshow = ({ onDismiss }: IdleSlideshowProps) => {
         </div>
         <div className="flex gap-2">
           {images.map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={cn(
                 "h-2 rounded-full transition-all duration-300",
                 i === currentIdx ? "w-12 bg-white" : "w-2 bg-white/30"
-              )} 
+              )}
             />
           ))}
         </div>

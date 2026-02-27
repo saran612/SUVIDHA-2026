@@ -9,8 +9,9 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
-      className
+      "border bg-card text-card-foreground shadow-xl [zoom:0.9] overflow-hidden",
+      className,
+      "rounded-[1.5rem]" // Placed at the end to guarantee it overrides any custom page-specific rounded-* classes
     )}
     {...props}
   />

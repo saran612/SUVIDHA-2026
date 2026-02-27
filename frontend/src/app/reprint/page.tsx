@@ -67,32 +67,29 @@ export default function ReprintPage() {
     return (
         <div className="h-full flex flex-col bg-[#F8FAFB] print:bg-white print:h-auto print:block">
             <main className="flex-1 p-6 sm:p-12 flex flex-col min-h-0 w-full print:p-0 print:block">
-                <div className="max-w-7xl mx-auto w-full flex flex-col h-full print:block">
-                    <div className="flex items-center gap-6 mb-8 shrink-0 p-2 print:hidden">
-                        <Button
-                            className="rounded-full h-14 w-14 p-0 bg-accent hover:bg-accent/90 text-white shadow-lg shrink-0"
-                            onClick={() => router.push('/dashboard')}
-                        >
-                            <ChevronLeft className="w-10 h-10" />
-                        </Button>
-                        <h1 className="text-3xl sm:text-5xl font-black text-gray-900 flex items-center gap-3">
-                            <Printer className="w-10 h-10 text-[#0E6170]" />
-                            {t('reprint_receipts')}
-                        </h1>
-                    </div>
+                <div className="w-full max-w-[1600px] mx-auto flex flex-col h-full print:block">
+
 
                     <div className="flex-1 min-h-0 print:block">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 h-full print:block">
                             {/* Left Column: Search & Result */}
-                            <div className="flex flex-col h-full print:block">
-                                <h2 className="text-2xl font-black text-gray-700 mb-6 flex items-center gap-2 print:hidden">
-                                    <Search className="w-6 h-6 text-[#0E6170]" />
-                                    Search Receipt
-                                </h2>
+                            <div className="flex flex-col h-full min-h-0 print:block">
+                                <div className="flex items-center gap-4 mb-6 print:hidden">
+                                    <Button
+                                        className="rounded-full h-14 w-14 p-0 bg-[#0E6170] hover:bg-[#0E6170]/90 text-white shadow-lg shrink-0 flex items-center justify-center transition-all active:scale-95"
+                                        onClick={() => router.push('/dashboard')}
+                                    >
+                                        <ChevronLeft className="w-10 h-10" />
+                                    </Button>
+                                    <h1 className="text-3xl sm:text-4xl font-black text-gray-900 flex items-center gap-3">
+                                        <Printer className="w-8 h-8 text-[#0E6170]" />
+                                        {t('reprint_receipts')}
+                                    </h1>
+                                </div>
 
                                 {!data ? (
-                                    <Card className="shadow-2xl border-none rounded-[1.25rem] overflow-hidden bg-white flex flex-col flex-1 print:hidden">
-                                        <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center h-full">
+                                    <Card className="shadow-2xl border-none rounded-[1.25rem] overflow-hidden bg-white flex flex-col flex-1 min-h-0 print:hidden">
+                                        <CardContent className="p-10 space-y-8 flex flex-col justify-center items-center flex-1 overflow-y-auto">
                                             <div className="space-y-4 w-full">
                                                 <p className="text-center text-muted-foreground font-medium">Enter your transaction ID or consumer number</p>
                                                 <Input
@@ -175,7 +172,7 @@ export default function ReprintPage() {
                             </div>
 
                             {/* Right Column: Recent Receipts List */}
-                            <div className="flex flex-col h-full mt-8 lg:mt-0 print:hidden">
+                            <div className="flex flex-col h-full mt-8 lg:mt-0 min-h-0 print:hidden">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-2xl font-black text-gray-700 flex items-center gap-2">
                                         <History className="w-6 h-6 text-accent" />
